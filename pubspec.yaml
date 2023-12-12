@@ -16,3 +16,61 @@ dependencies:
 
 flutter_intl:
   enabled: true
+
+flutter:
+  assets:
+    - assets/images/cards/backs/slo/backside.png
+    - assets/images/cards/faces/slo/clubs_7.png
+    - assets/images/cards/faces/slo/clubs_8.png
+    - assets/images/cards/faces/slo/clubs_9.png
+    - assets/images/cards/faces/slo/clubs_10.png
+    - assets/images/cards/faces/slo/clubs_jack.png
+    - assets/images/cards/faces/slo/clubs_knight.png
+    - assets/images/cards/faces/slo/clubs_queen.png
+    - assets/images/cards/faces/slo/clubs_king.png
+    - assets/images/cards/faces/slo/diamonds_1.png
+    - assets/images/cards/faces/slo/diamonds_2.png
+    - assets/images/cards/faces/slo/diamonds_3.png
+    - assets/images/cards/faces/slo/diamonds_4.png
+    - assets/images/cards/faces/slo/diamonds_jack.png
+    - assets/images/cards/faces/slo/diamonds_knight.png
+    - assets/images/cards/faces/slo/diamonds_queen.png
+    - assets/images/cards/faces/slo/diamonds_king.png
+    - assets/images/cards/faces/slo/hearts_1.png
+    - assets/images/cards/faces/slo/hearts_2.png
+    - assets/images/cards/faces/slo/hearts_3.png
+    - assets/images/cards/faces/slo/hearts_4.png
+    - assets/images/cards/faces/slo/hearts_knight.png
+    - assets/images/cards/faces/slo/hearts_queen.png
+    - assets/images/cards/faces/slo/hearts_jack.png
+    - assets/images/cards/faces/slo/hearts_king.png
+    - assets/images/cards/faces/slo/spades_7.png
+    - assets/images/cards/faces/slo/spades_8.png
+    - assets/images/cards/faces/slo/spades_9.png
+    - assets/images/cards/faces/slo/spades_10.png
+    - assets/images/cards/faces/slo/spades_jack.png
+    - assets/images/cards/faces/slo/spades_knight.png
+    - assets/images/cards/faces/slo/spades_queen.png
+    - assets/images/cards/faces/slo/spades_king.png
+    - assets/images/cards/faces/slo/I.png
+    - assets/images/cards/faces/slo/II.png
+    - assets/images/cards/faces/slo/III.png
+    - assets/images/cards/faces/slo/IIII.png
+    - assets/images/cards/faces/slo/V.png
+    - assets/images/cards/faces/slo/VI.png
+    - assets/images/cards/faces/slo/VII.png
+    - assets/images/cards/faces/slo/VIII.png
+    - assets/images/cards/faces/slo/IX.png
+    - assets/images/cards/faces/slo/X.png
+    - assets/images/cards/faces/slo/XI.png
+    - assets/images/cards/faces/slo/XII.png
+    - assets/images/cards/faces/slo/XIII.png
+    - assets/images/cards/faces/slo/XIV.png
+    - assets/images/cards/faces/slo/XV.png
+    - assets/images/cards/faces/slo/XVI.png
+    - assets/images/cards/faces/slo/XVII.png
+    - assets/images/cards/faces/slo/XVIII.png
+    - assets/images/cards/faces/slo/XIX.png
+    - assets/images/cards/faces/slo/XX.png
+    - assets/images/cards/faces/slo/XXI.png
+    - assets/images/cards/faces/slo/skis.png
