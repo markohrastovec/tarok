@@ -1,7 +1,5 @@
 import 'dart:core';
-import 'dart:math';
 
-import '../globals.dart' as globals;
 import 'card.dart';
 
 enum ShuffleMethod { Random }

@@ -3,7 +3,6 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
 import '../globals.dart' as globals;
-import 'card.dart';
 import 'deck.dart';
 
 class TarokGame extends FlameGame {
