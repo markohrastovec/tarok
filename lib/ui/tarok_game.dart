@@ -3,6 +3,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 
 import '../globals.dart' as globals;
+import 'card.dart';
 import 'deck.dart';
 
 class TarokGame extends FlameGame {
@@ -73,10 +74,23 @@ class TarokGame extends FlameGame {
 
     Deck d = Deck ();
     d.setFullDeck ();
-    world.add (Deck.hearts1);
+    d.shuffle (ShuffleMethod.Random);
+    Vector2 pos = Vector2 (500, 0);
+    for (int i = 0; i < d.length; i++) {
+      d[i].angle = 0.2 - globals.rnd.nextDouble() * 0.4;
+      d[i].position = pos;
+      world.add(d[i]);
+      if ((i + 1) % 8 == 0) {
+        pos.x = 500.0;
+        pos.y += 700.0;
+      }
+      else {
+        pos.x += 500.0;
+      }
+    }
 
-    camera.viewfinder.visibleGameSize = Vector2(1000, 2000);
-    camera.viewfinder.position = Vector2(500, 1000);
+    camera.viewfinder.visibleGameSize = Vector2(Card.cardWidth * 10, Card.cardHeight * 3);
+    camera.viewfinder.position = Vector2(Card.cardWidth * 5, Card.cardHeight * 1.5);
     camera.viewfinder.anchor = Anchor.center;
   }
 }

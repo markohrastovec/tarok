@@ -54,6 +54,8 @@ enum CardValue
 
 class Card extends SpriteComponent
 {
+  static const double cardWidth = 900.0;
+  static const double cardHeight = 1600.0;
   final int points, order;
   final CardValue value;
   final CardColor color;
@@ -82,5 +84,5 @@ class Card extends SpriteComponent
     value = _v,
     color = _s,
     resourceId = _resId,
-    super.fromImage (Flame.images.fromCache(globals.cardFace + _resId + ".png"));
+    super.fromImage (Flame.images.fromCache(globals.cardFace + _resId + ".png"), anchor: Anchor.center);
 }
