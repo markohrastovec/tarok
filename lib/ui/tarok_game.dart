@@ -75,17 +75,17 @@ class TarokGame extends FlameGame {
     Deck d = Deck ();
     d.setFullDeck ();
     d.shuffle (ShuffleMethod.Random);
-    Vector2 pos = Vector2 (500, 0);
+    Vector2 pos = Vector2 (600, 0);
     for (int i = 0; i < d.length; i++) {
       d[i].angle = 0.2 - globals.rnd.nextDouble() * 0.4;
       d[i].position = pos;
       world.add(d[i]);
-      if ((i + 1) % 8 == 0) {
-        pos.x = 500.0;
-        pos.y += 700.0;
+      if ((i + 1) % 9 == 0) {
+        pos.x = 600.0;
+        pos.y += 900.0;
       }
       else {
-        pos.x += 500.0;
+        pos.x += 600.0;
       }
     }
 
