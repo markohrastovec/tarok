@@ -265,9 +265,8 @@ class Deck {
 
   void randomShuffle () {
     deck.shuffle ();
-    /*Random rnd = new Random ();
-    for (int i = deck.length - 1; i > 0; i--) {
-      int j = rnd.nextInt(i + 1);
+    /*for (int i = deck.length - 1; i > 0; i--) {
+      int j = Random ().nextInt(i + 1);
 
       Card temp = deck[i];
       deck[i] = deck[j];

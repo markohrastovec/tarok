@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -77,7 +79,7 @@ class TarokGame extends FlameGame {
     d.shuffle (ShuffleMethod.Random);
     Vector2 pos = Vector2 (600, 0);
     for (int i = 0; i < d.length; i++) {
-      d[i].angle = 0.2 - globals.rnd.nextDouble() * 0.4;
+      d[i].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
       d[i].position = pos;
       world.add(d[i]);
       if ((i + 1) % 9 == 0) {
