@@ -6,7 +6,10 @@ import 'package:flame/game.dart';
 
 import '../globals.dart' as globals;
 import 'card.dart';
-import 'deck.dart';
+import '../game_logic/deck.dart';
+import 'player_pile.dart';
+import 'win_pile.dart';
+import 'table_pile.dart';
 
 class TarokGame extends FlameGame {
   List<String> imageFiles = <String>[
@@ -74,7 +77,7 @@ class TarokGame extends FlameGame {
     //await Flame.device.fullScreen ();
     //await Flame.device.setLandscape ();
 
-    Deck d = Deck ();
+    /*Deck d = Deck ();
     d.setFullDeck ();
     d.shuffle (ShuffleMethod.Random);
     Vector2 pos = Vector2 (600, 0);
@@ -89,10 +92,38 @@ class TarokGame extends FlameGame {
       else {
         pos.x += 600.0;
       }
+    }*/
+
+    List<WinPile> wins = List.generate(
+      PlayerPosition.values.length, (i) => WinPile (PlayerPosition.values[i]),
+    );
+    world.addAll (wins);
+
+    List<PlayerPile> players = List.generate(
+      PlayerPosition.values.length, (i) => PlayerPile (PlayerPosition.values[i]),
+    );
+    world.addAll (players);
+
+    TablePile tablePile = TablePile ();
+    tablePile.position = Vector2 (900, 9009);
+    tablePile.size = Vector2 (7200, 7200);
+    world.add (tablePile);
+
+    Deck playingDeck = Deck ();
+    playingDeck.setFullDeck();
+    playingDeck.shuffle(ShuffleMethod.Random);
+    
+    for (int i = 0; i < PlayerPosition.values.length; i++) {
+      for (int j = 0; j < 12; j++) {
+        playingDeck.moveTo(players[i].deck!, card: playingDeck[0]);
+      }
+      players[i].deck[0].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
+      players[i].deck[0].position = Vector2(600, 0);
+      players[i].add (players[i].deck[0]);
     }
 
-    camera.viewfinder.visibleGameSize = Vector2(Card.cardWidth * 10, Card.cardHeight * 3);
-    camera.viewfinder.position = Vector2(Card.cardWidth * 5, Card.cardHeight * 1.5);
+    camera.viewfinder.visibleGameSize = Vector2(9000, 9000);
+    camera.viewfinder.position = Vector2(4500, 4500);
     camera.viewfinder.anchor = Anchor.center;
   }
 }

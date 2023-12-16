@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'card.dart';
+import '../ui/card.dart';
 
 enum ShuffleMethod { Random }
 
@@ -169,6 +169,15 @@ class Deck {
       deck.add(card);
   }
 
+  void remove({String? cardName, Card? card}) {
+    if (cardName != null && deck.contains (dictionary[cardName])) {
+      deck.remove(dictionary[cardName]);
+    }
+    if (card != null && deck.contains (card)) {
+      deck.remove(card);
+    }
+  }
+
   Card operator [](int i) => deck[i];
 
   operator []=(int i, Card value) => deck[i] = value;
@@ -282,6 +291,17 @@ class Deck {
   void addTo (Deck d) {
     for (int i = 0; i < d.length; i++) {
       d.add(card: deck[i]);
+    }
+  }
+
+  void moveTo (Deck d, {String? cardName, Card? card}) {
+    if (cardName != null && deck.contains(dictionary[cardName])) {
+      d.add (cardName: cardName);
+      deck.remove (dictionary[cardName]);
+    }
+    if (card != null && deck.contains(card)) {
+      d.add (card: card);
+      deck.remove (card);
     }
   }
 }
