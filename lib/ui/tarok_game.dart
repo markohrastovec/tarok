@@ -116,10 +116,10 @@ class TarokGame extends FlameGame {
     for (int i = 0; i < PlayerPosition.values.length; i++) {
       for (int j = 0; j < 12; j++) {
         playingDeck.moveTo(players[i].deck!, card: playingDeck[0]);
+        players[i].deck[j].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
+        players[i].deck[j].position = Vector2(600 * (j + 1), 0);
+        players[i].add (players[i].deck[j]);
       }
-      players[i].deck[0].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
-      players[i].deck[0].position = Vector2(600, 0);
-      players[i].add (players[i].deck[0]);
     }
 
     camera.viewfinder.visibleGameSize = Vector2(9000, 9000);
