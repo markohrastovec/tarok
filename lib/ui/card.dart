@@ -13,7 +13,7 @@ enum Suit {
   Tarock
 }
 
-enum CardValue
+enum Face
 {
   no1,
   no2,
@@ -54,10 +54,11 @@ enum CardValue
 
 class Card extends SpriteComponent
 {
-  static const double cardWidth = 900.0;
-  static const double cardHeight = 1600.0;
+  static const double cardWidth = 900;
+  static const double cardHeight = 1600;
+  static const double cardOverlap = 0.5;
   final int points, order;
-  final CardValue value;
+  final Face value;
   final Suit suit;
   final String resourceId;
 
@@ -78,7 +79,7 @@ class Card extends SpriteComponent
   // this can be done, because same cards should bot be compared and two different card cannot be equal
   bool operator > (Card b) { return !(this < b); }
 
-  Card (int _p, int _o, CardValue _v, Suit _s, String _resId)
+  Card (int _p, int _o, Face _v, Suit _s, String _resId)
   : points = _p,
     order = _o,
     value = _v,

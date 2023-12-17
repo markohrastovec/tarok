@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:math';
 
 import 'package:flame/components.dart';
@@ -10,6 +11,13 @@ import '../game_logic/deck.dart';
 import 'player_pile.dart';
 import 'win_pile.dart';
 import 'table_pile.dart';
+
+enum PlayerPosition {
+  South,
+  East,
+  North,
+  West
+}
 
 class TarokGame extends FlameGame {
   List<String> imageFiles = <String>[
@@ -94,20 +102,60 @@ class TarokGame extends FlameGame {
       }
     }*/
 
+    TablePile tablePile = TablePile ();
+    tablePile.position = Vector2.all (Card.cardHeight * (1.0 - Card.cardOverlap));
+    tablePile.size = Vector2.all (12 * Card.cardWidth * (1.0 - Card.cardOverlap));
+    world.add (tablePile);
+
     List<WinPile> wins = List.generate(
-      PlayerPosition.values.length, (i) => WinPile (PlayerPosition.values[i]),
-    );
+      PlayerPosition.values.length, (i) {
+      WinPile winPile = WinPile();
+      winPile.size = tablePile.position;
+      switch (PlayerPosition.values[i]) {
+        case PlayerPosition.South:
+          winPile.position = Vector2.all(winPile.size.x + tablePile.size.x);
+          break;
+        case PlayerPosition.East:
+          winPile.position = Vector2(winPile.size.y + tablePile.size.x, winPile.size.y);
+          winPile.angle = -pi / 2.0;
+          break;
+        case PlayerPosition.North:
+          winPile.position = Vector2(winPile.size.x, winPile.size.y);
+          winPile.angle = pi;
+          break;
+        case PlayerPosition.West:
+          winPile.position = Vector2(winPile.size.y, winPile.size.y + tablePile.size.x);
+          winPile.angle = pi / 2.0;
+          break;
+      }
+      return winPile;
+    });
     world.addAll (wins);
 
     List<PlayerPile> players = List.generate(
-      PlayerPosition.values.length, (i) => PlayerPile (PlayerPosition.values[i]),
-    );
+      PlayerPosition.values.length, (i) {
+      PlayerPile playerPile = PlayerPile();
+      playerPile.size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
+      switch (PlayerPosition.values[i]) {
+        case PlayerPosition.South:
+          playerPile.position = Vector2(playerPile.size.y, playerPile.size.y + tablePile.size.y);
+          break;
+        case PlayerPosition.East:
+          playerPile.position = Vector2.all(playerPile.size.y + tablePile.size.x);
+          playerPile.angle = -pi / 2.0;
+          break;
+        case PlayerPosition.North:
+          playerPile.position = Vector2(playerPile.size.y + tablePile.size.x, playerPile.size.y);
+          playerPile.angle = pi;
+          break;
+        case PlayerPosition.West:
+          playerPile.position = Vector2(playerPile.size.y, playerPile.size.y);
+          playerPile.angle = pi / 2.0;
+          break;
+      }
+      return playerPile;
+    });
     world.addAll (players);
-
-    TablePile tablePile = TablePile ();
-    tablePile.position = Vector2 (900, 9009);
-    tablePile.size = Vector2 (7200, 7200);
-    world.add (tablePile);
 
     Deck playingDeck = Deck ();
     playingDeck.setFullDeck();
@@ -121,8 +169,8 @@ class TarokGame extends FlameGame {
       players[i].arrangeDeck();
     }
 
-    camera.viewfinder.visibleGameSize = Vector2(9000, 9000);
-    camera.viewfinder.position = Vector2(4500, 4500);
+    camera.viewfinder.visibleGameSize = Vector2.all(tablePile.size.x + 2.0 * tablePile.position.x);
+    camera.viewfinder.position = Vector2.copy (camera.viewfinder.visibleGameSize!) / 2.0;
     camera.viewfinder.anchor = Anchor.center;
   }
 }
