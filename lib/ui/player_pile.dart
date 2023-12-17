@@ -36,10 +36,21 @@ class PlayerPile extends Pile with TapCallbacks {
         angle = pi;
         break;
       case PlayerPosition.West:
-        position = Vector2(0, 900);
+        position = Vector2(900, 900);
         size = Vector2(7200, 900);
         angle = pi / 2.0;
         break;
+    }
+  }
+
+  arrangeDeck () {
+    removeAll(children);
+    double dx = (7200 - 2 * 500) / (deck.length - 1);
+    for (int i = 0; i < deck.length; i++) {
+      deck[i].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
+      deck[i].position = Vector2(500 + dx * i, 700);
+      add (deck[i]);
+
     }
   }
 }

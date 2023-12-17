@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
@@ -17,16 +19,19 @@ class WinPile extends Pile with TapCallbacks {
         size = Vector2(900, 900);
         break;
       case PlayerPosition.East:
-        position = Vector2(8100, 0);
+        position = Vector2(8100, 900);
         size = Vector2(900, 900);
+        angle = -pi / 2.0;
         break;
       case PlayerPosition.North:
-        position = Vector2(0, 0);
+        position = Vector2(900, 900);
         size = Vector2(900, 900);
+        angle = pi;
         break;
       case PlayerPosition.West:
-        position = Vector2(0, 8100);
+        position = Vector2(900, 8100);
         size = Vector2(900, 900);
+        angle = pi / 2.0;
         break;
     }
   }

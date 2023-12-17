@@ -5,7 +5,7 @@ import 'package:flame/flame.dart';
 
 import '../globals.dart' as globals;
 
-enum CardColor {
+enum Suit {
   Hearts,
   Diamonds,
   Clubs,
@@ -58,19 +58,19 @@ class Card extends SpriteComponent
   static const double cardHeight = 1600.0;
   final int points, order;
   final CardValue value;
-  final CardColor color;
+  final Suit suit;
   final String resourceId;
 
   // operators <, > tell which card wins when played
   // TODO:
-  //   - here are special cases when this operators do not apply (color valat; "XXI" then "skus" then "I" played in that order I wins)
+  //   - here are special cases when this operators do not apply (suit valat; "XXI" then "skus" then "I" played in that order I wins)
   //   - comparison of same cards is not covered, but it should neven come in such situation
-  //   - in color valat colors are higher than tarocks
+  //   - in suit valat suits are higher than tarocks
   bool operator < (Card other)
   {
-    if (color == other.color) return (order < other.order) ? true : false;
-    if (color == CardColor.Tarock && other.color != CardColor.Tarock) return true;
-    if (color != CardColor.Tarock && other.color == CardColor.Tarock) return false;
+    if (suit == other.suit) return (order < other.order) ? true : false;
+    if (suit == Suit.Tarock && other.suit != Suit.Tarock) return true;
+    if (suit != Suit.Tarock && other.suit == Suit.Tarock) return false;
     // should not come here
     return false;
   }
@@ -78,11 +78,11 @@ class Card extends SpriteComponent
   // this can be done, because same cards should bot be compared and two different card cannot be equal
   bool operator > (Card b) { return !(this < b); }
 
-  Card (int _p, int _o, CardValue _v, CardColor _s, String _resId)
+  Card (int _p, int _o, CardValue _v, Suit _s, String _resId)
   : points = _p,
     order = _o,
     value = _v,
-    color = _s,
+    suit = _s,
     resourceId = _resId,
     super.fromImage (Flame.images.fromCache(globals.cardFace + _resId + ".png"), anchor: Anchor.center);
 }
