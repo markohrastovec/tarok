@@ -34,9 +34,13 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks {
       }
       if (enlargeFactor > enlargeMin) {
         card.size = Vector2(Card.cardWidth, Card.cardHeight) * enlargeFactor * enlarge;
+        //card.position.y = Card.cardHeight * 0.5 / enlargeFactor;
+        card.priority = 100;
       }
       else {
         card.size = Vector2(Card.cardWidth, Card.cardHeight);
+        //card.position.y = Card.cardHeight * 0.5;
+        card.priority = deck.deck.indexOf (card);
       }
     }
   }
@@ -44,6 +48,28 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks {
   @override
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
+    final cards = children.whereType<Card>();
+
+    for (final card in cards) {
+      card.size = Vector2(Card.cardWidth, Card.cardHeight);
+      //card.priority = deck.deck.indexOf (card);
+    }
+  }
+
+  @override
+  void onDragCancel(DragCancelEvent event) {
+    super.onDragCancel(event);
+    final cards = children.whereType<Card>();
+
+    for (final card in cards) {
+      card.size = Vector2(Card.cardWidth, Card.cardHeight);
+      //card.priority = deck.deck.indexOf (card);
+    }
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    // play selected card = card with highest priority
   }
 
   arrangeDeck () {
@@ -53,6 +79,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks {
       deck[i].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
       deck[i].position = Vector2(Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * i, Card.cardHeight * 0.5);
       deck[i].size = Vector2(Card.cardWidth, Card.cardHeight);
+      deck[i].priority = i;
       add (deck[i]);
     }
   }
