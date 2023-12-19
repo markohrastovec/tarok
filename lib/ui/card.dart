@@ -1,7 +1,9 @@
 import 'dart:core';
 
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
+import 'package:tarok/ui/player_pile.dart';
 
 import '../globals.dart' as globals;
 
@@ -52,7 +54,7 @@ enum Face
   skis
 }
 
-class Card extends SpriteComponent
+class Card extends SpriteComponent with TapCallbacks
 {
   static const double cardWidth = 900;
   static const double cardHeight = 1600;
@@ -86,4 +88,13 @@ class Card extends SpriteComponent
     suit = _s,
     resourceId = _resId,
     super.fromImage (Flame.images.fromCache(globals.cardFace + _resId + ".png"), anchor: Anchor.center);
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    if (parent.runtimeType == PlayerPile) {
+      PlayerPile pp = parent as PlayerPile;
+      pp.deck.remove (card: this);
+      pp.arrangeDeck();
+    }
+  }
 }

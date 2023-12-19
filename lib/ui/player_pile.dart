@@ -7,7 +7,8 @@ import 'card.dart';
 import 'pile.dart';
 import '../game_logic/deck.dart';
 
-class PlayerPile extends Pile with TapCallbacks, DragCallbacks {
+class PlayerPile extends Pile with TapCallbacks, DragCallbacks
+{
   static const double enlarge = 1.5;
   static const double enlargeMin = 1 / enlarge;
   double _dx = 1.0;
@@ -30,7 +31,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks {
       //double enlargeFactor = (4.0 * _dx - (event.localEndPosition.x - card.position.x).abs()) / (4.0 * _dx);
       double enlargeFactor = 1.0;
       if (card.sprite != null) {
-        enlargeFactor = (card.sprite!.originalSize.x * 1.5 - (event.localEndPosition.x - card.position.x).abs()) / (card.sprite!.originalSize.x * 1.5);
+        enlargeFactor = (card.sprite!.originalSize.x * enlarge - (event.localEndPosition.x - card.position.x).abs()) / (card.sprite!.originalSize.x * enlarge);
       }
       if (enlargeFactor > enlargeMin) {
         card.size = Vector2(Card.cardWidth, Card.cardHeight) * enlargeFactor * enlarge;
@@ -72,12 +73,25 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks {
     // play selected card = card with highest priority
   }
 
-  arrangeDeck () {
+  arrangeDeck ({bool setAngle = false}) {
     removeAll(children);
-    _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (deck.length - 1);
+    if (deck.length > 1) {
+      _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (deck.length - 1);
+    }
+    else {
+      _dx = 0.0;
+    }
     for (int i = 0; i < deck.length; i++) {
-      deck[i].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
-      deck[i].position = Vector2(Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * i, Card.cardHeight * 0.5);
+      if (setAngle) {
+        deck[i].angle =
+            Random().nextInt(2) * pi + 0.2 - Random().nextDouble() * 0.4;
+      }
+      if (deck.length == 1) {
+        deck[i].position = Vector2(size.x / 2.0, Card.cardHeight * 0.5);
+      }
+      else {
+        deck[i].position = Vector2(Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * i, Card.cardHeight * 0.5);
+      }
       deck[i].size = Vector2(Card.cardWidth, Card.cardHeight);
       deck[i].priority = i;
       add (deck[i]);

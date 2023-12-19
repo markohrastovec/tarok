@@ -166,7 +166,7 @@ class TarokGame extends FlameGame {
         playingDeck.moveTo(players[i].deck!, card: playingDeck[0]);
       }
       players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
-      players[i].arrangeDeck();
+      players[i].arrangeDeck(setAngle: true);
     }
 
     camera.viewfinder.visibleGameSize = Vector2.all(tablePile.size.x + 2.0 * tablePile.position.x);

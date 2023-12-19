@@ -307,7 +307,7 @@ class Deck {
 
   // Sort cards in the deck.
   // Cards are grouped in suits, then sorted by order in the suit.
-  // Suit order is defined by parameter suits.
+  // Suit order is defined by parameter list suits.
   void sort (List<Suit> suits) {
     deck.sort((a, b) => (suits.indexOf (a.suit) * 100 + a.order) - (suits.indexOf (b.suit) * 100 + b.order));
   }
