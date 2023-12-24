@@ -5,7 +5,6 @@ import 'package:flame/events.dart';
 
 import 'card.dart';
 import 'pile.dart';
-import '../game_logic/deck.dart';
 
 class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 {

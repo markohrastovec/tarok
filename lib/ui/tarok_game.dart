@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:math';
 
 import 'package:flame/components.dart';
@@ -163,7 +162,7 @@ class TarokGame extends FlameGame {
     
     for (int i = 0; i < PlayerPosition.values.length; i++) {
       for (int j = 0; j < 12; j++) {
-        playingDeck.moveTo(players[i].deck!, card: playingDeck[0]);
+        playingDeck.moveTo(players[i].deck, card: playingDeck[0]);
       }
       players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
       players[i].arrangeDeck(setAngle: true);
