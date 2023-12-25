@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -101,10 +102,22 @@ class TarokGame extends FlameGame {
       }
     }*/
 
+    //TODO: Position elements according to actual screen width/height ratio.
+    //TODO: Move code to a function that is executed on each resize. Calculate ratio from "Rect visibleWorld = camera.visibleWorldRect;"
+    double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
+
     TablePile tablePile = TablePile ();
     tablePile.position = Vector2.all (Card.cardHeight * (1.0 - Card.cardOverlap));
     tablePile.size = Vector2.all (12 * Card.cardWidth * (1.0 - Card.cardOverlap));
     world.add (tablePile);
+    double excessPlayerSpace = 0.0;
+    double visibleGameSize = tablePile.size.x + 2.0 * tablePile.position.x;
+    if (screenRatio > 1.0) {
+      excessPlayerSpace = (screenRatio - 1.0) * visibleGameSize / 2.0;
+    }
+    else if (screenRatio < 1.0) {
+      excessPlayerSpace = (1.0 / screenRatio - 1.0) * visibleGameSize / 2.0;
+    }
 
     List<WinPile> wins = List.generate(
       PlayerPosition.values.length, (i) {
@@ -113,18 +126,42 @@ class TarokGame extends FlameGame {
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.South:
           winPile.position = Vector2.all(winPile.size.x + tablePile.size.x);
+          if (screenRatio < 1.0) {
+            winPile.size.y += excessPlayerSpace;
+          }
+          else {
+            winPile.size.x += excessPlayerSpace;
+          }
           break;
         case PlayerPosition.East:
           winPile.position = Vector2(winPile.size.y + tablePile.size.x, winPile.size.y);
           winPile.angle = -pi / 2.0;
+          if (screenRatio > 1.0) {
+            winPile.size.y += excessPlayerSpace;
+          }
+          else {
+            winPile.size.x += excessPlayerSpace;
+          }
           break;
         case PlayerPosition.North:
           winPile.position = Vector2(winPile.size.x, winPile.size.y);
           winPile.angle = pi;
+          if (screenRatio < 1.0) {
+            winPile.size.y += excessPlayerSpace;
+          }
+          else {
+            winPile.size.x += excessPlayerSpace;
+          }
           break;
         case PlayerPosition.West:
           winPile.position = Vector2(winPile.size.y, winPile.size.y + tablePile.size.x);
           winPile.angle = pi / 2.0;
+          if (screenRatio > 1.0) {
+            winPile.size.y += excessPlayerSpace;
+          }
+          else {
+            winPile.size.x += excessPlayerSpace;
+          }
           break;
       }
       return winPile;
@@ -138,18 +175,30 @@ class TarokGame extends FlameGame {
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.South:
           playerPile.position = Vector2(playerPile.size.y, playerPile.size.y + tablePile.size.y);
+          if (screenRatio < 1.0) {
+            playerPile.size.y += excessPlayerSpace;
+          }
           break;
         case PlayerPosition.East:
           playerPile.position = Vector2.all(playerPile.size.y + tablePile.size.x);
           playerPile.angle = -pi / 2.0;
+          if (screenRatio > 1.0) {
+            playerPile.size.y += excessPlayerSpace;
+          }
           break;
         case PlayerPosition.North:
           playerPile.position = Vector2(playerPile.size.y + tablePile.size.x, playerPile.size.y);
           playerPile.angle = pi;
+          if (screenRatio < 1.0) {
+            playerPile.size.y += excessPlayerSpace;
+          }
           break;
         case PlayerPosition.West:
           playerPile.position = Vector2(playerPile.size.y, playerPile.size.y);
           playerPile.angle = pi / 2.0;
+          if (screenRatio > 1.0) {
+            playerPile.size.y += excessPlayerSpace;
+          }
           break;
       }
       return playerPile;
@@ -168,8 +217,13 @@ class TarokGame extends FlameGame {
       players[i].arrangeDeck(setAngle: true);
     }
 
-    camera.viewfinder.visibleGameSize = Vector2.all(tablePile.size.x + 2.0 * tablePile.position.x);
+    camera.viewfinder.visibleGameSize = Vector2.all(visibleGameSize);
     camera.viewfinder.position = Vector2.copy (camera.viewfinder.visibleGameSize!) / 2.0;
     camera.viewfinder.anchor = Anchor.center;
+  }
+
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
   }
 }
