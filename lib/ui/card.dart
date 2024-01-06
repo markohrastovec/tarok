@@ -89,12 +89,13 @@ class Card extends SpriteComponent with TapCallbacks
     resourceId = _resId,
     super.fromImage (Flame.images.fromCache(globals.cardFace + _resId + ".png"), anchor: Anchor.center);
 
+  //TODO: This removes the card on tap down, but it should not when drag event starts with a tap down.
   @override
   void onTapDown(TapDownEvent event) {
-    if (parent.runtimeType == PlayerPile) {
+    /*if (parent.runtimeType == PlayerPile) {
       PlayerPile pp = parent as PlayerPile;
       pp.deck.remove (card: this);
       pp.arrangeDeck();
-    }
+    }*/
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:math';
 import 'dart:ui';
 
@@ -104,22 +105,25 @@ class TarokGame extends FlameGame {
 
     //TODO: Position elements according to actual screen width/height ratio.
     //TODO: Move code to a function that is executed on each resize. Calculate ratio from "Rect visibleWorld = camera.visibleWorldRect;"
+    //plan: If width is much different than height, then card along longer border are maximized and 12 shown in a row.
+    //      If this maximization of cards takes more than a third (max card size: 1/3 one row, 1/3 table, 1/3 one row on the opposite)
+    //      of screen along shorter border, cards along shorter border will be arranged in two (or more?) rows.
     double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
 
     TablePile tablePile = TablePile ();
     tablePile.position = Vector2.all (Card.cardHeight * (1.0 - Card.cardOverlap));
-    tablePile.size = Vector2.all (12 * Card.cardWidth * (1.0 - Card.cardOverlap));
+    double tableSizeFor12Cards = 12 * Card.cardWidth * (1.0 - Card.cardOverlap);
+    if (screenRatio >= 1.0) {
+      tablePile.size = Vector2 (tableSizeFor12Cards, tableSizeFor12Cards / screenRatio);
+    }
+    else {
+      tablePile.size = Vector2 (tableSizeFor12Cards * screenRatio, tableSizeFor12Cards);
+    }
     world.add (tablePile);
-    double excessPlayerSpace = 0.0;
-    double visibleGameSize = tablePile.size.x + 2.0 * tablePile.position.x;
-    if (screenRatio > 1.0) {
-      excessPlayerSpace = (screenRatio - 1.0) * visibleGameSize / 2.0;
-    }
-    else if (screenRatio < 1.0) {
-      excessPlayerSpace = (1.0 / screenRatio - 1.0) * visibleGameSize / 2.0;
-    }
 
-    List<WinPile> wins = List.generate(
+    Vector2 visibleGameSize = Vector2 (tablePile.size.x + 2.0 * tablePile.position.x, tablePile.size.y + 2.0 * tablePile.position.y);
+
+    /*List<WinPile> wins = List.generate(
       PlayerPosition.values.length, (i) {
       WinPile winPile = WinPile();
       winPile.size = tablePile.position;
@@ -166,38 +170,41 @@ class TarokGame extends FlameGame {
       }
       return winPile;
     });
-    world.addAll (wins);
+    world.addAll (wins);*/
 
     List<PlayerPile> players = List.generate(
       PlayerPosition.values.length, (i) {
       PlayerPile playerPile = PlayerPile();
-      playerPile.size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.South:
+          playerPile.size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
           playerPile.position = Vector2(playerPile.size.y, playerPile.size.y + tablePile.size.y);
           if (screenRatio < 1.0) {
-            playerPile.size.y += excessPlayerSpace;
+            playerPile.size.y /= screenRatio;
           }
           break;
         case PlayerPosition.East:
-          playerPile.position = Vector2.all(playerPile.size.y + tablePile.size.x);
+          playerPile.size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
+          playerPile.position = Vector2 (playerPile.size.y + tablePile.size.x, playerPile.size.y + tablePile.size.y);
           playerPile.angle = -pi / 2.0;
           if (screenRatio > 1.0) {
-            playerPile.size.y += excessPlayerSpace;
+            playerPile.size.y *= screenRatio;
           }
           break;
         case PlayerPosition.North:
+          playerPile.size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
           playerPile.position = Vector2(playerPile.size.y + tablePile.size.x, playerPile.size.y);
           playerPile.angle = pi;
           if (screenRatio < 1.0) {
-            playerPile.size.y += excessPlayerSpace;
+            playerPile.size.y /= screenRatio;
           }
           break;
         case PlayerPosition.West:
+          playerPile.size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
           playerPile.position = Vector2(playerPile.size.y, playerPile.size.y);
           playerPile.angle = pi / 2.0;
           if (screenRatio > 1.0) {
-            playerPile.size.y += excessPlayerSpace;
+            playerPile.size.y *= screenRatio;
           }
           break;
       }
@@ -217,7 +224,7 @@ class TarokGame extends FlameGame {
       players[i].arrangeDeck(setAngle: true);
     }
 
-    camera.viewfinder.visibleGameSize = Vector2.all(visibleGameSize);
+    camera.viewfinder.visibleGameSize = visibleGameSize;
     camera.viewfinder.position = Vector2.copy (camera.viewfinder.visibleGameSize!) / 2.0;
     camera.viewfinder.anchor = Anchor.center;
   }

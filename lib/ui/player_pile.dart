@@ -10,7 +10,9 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 {
   static const double enlarge = 1.5;
   static const double enlargeMin = 1 / enlarge;
-  double _dx = 1.0;
+  static const double maxRotation = 0.2;
+  double _dx = 0.0;
+  double _dy = 0.0;
 
   PlayerPile()
   {}
@@ -74,24 +76,38 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 
   arrangeDeck ({bool setAngle = false}) {
     removeAll(children);
+
+    int rows = 1;
+    if (size.x < Card.cardWidth * deck.length) {
+      rows = max ((size.y / (Card.cardHeight * Card.cardOverlap)).floor(), 1);
+    }
+    int columns = ((deck.length + (rows - 1)) / rows).floor();
+
     if (deck.length > 1) {
-      _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (deck.length - 1);
+      _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (columns - 1);
     }
     else {
       _dx = 0.0;
     }
+    if (rows > 0) {
+      _dy = size.y / rows;
+    }
+    else {
+      _dy = 0.0;
+    }
     for (int i = 0; i < deck.length; i++) {
+      int row = (i / columns).floor ();
+      int column = i % columns;
       if (setAngle) {
-        deck[i].angle =
-            Random().nextInt(2) * pi + 0.2 - Random().nextDouble() * 0.4;
+        deck[i].angle = Random ().nextInt (2) * pi + maxRotation - Random ().nextDouble () * maxRotation * 2.0;
       }
       if (deck.length == 1) {
-        deck[i].position = Vector2(size.x / 2.0, Card.cardHeight * 0.5);
+        deck[i].position = Vector2 (size.x / 2.0, Card.cardHeight * 0.5);
       }
       else {
-        deck[i].position = Vector2(Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * i, Card.cardHeight * 0.5);
+        deck[i].position = Vector2 (Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * column, Card.cardHeight * (1 - Card.cardOverlap) + _dy * row);
       }
-      deck[i].size = Vector2(Card.cardWidth, Card.cardHeight);
+      deck[i].size = Vector2 (Card.cardWidth, Card.cardHeight);
       deck[i].priority = i;
       add (deck[i]);
     }
