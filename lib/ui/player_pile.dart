@@ -74,6 +74,12 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
     // play selected card = card with highest priority
   }
 
+  @override
+  void onGameResize(Vector2 maxSize) {
+    super.onGameResize(maxSize);
+    //TODO: re-arrange on resize
+  }
+
   arrangeDeck ({bool setAngle = false}) {
     removeAll(children);
 

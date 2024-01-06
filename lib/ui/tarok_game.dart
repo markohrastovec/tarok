@@ -221,7 +221,7 @@ class TarokGame extends FlameGame {
         playingDeck.moveTo(players[i].deck, card: playingDeck[0]);
       }
       players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
-      players[i].arrangeDeck(setAngle: true);
+      players[i].arrangeDeck(setAngle: true); //TODO: this should be called onMount???
     }
 
     camera.viewfinder.visibleGameSize = visibleGameSize;
@@ -232,5 +232,7 @@ class TarokGame extends FlameGame {
   @override
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
+
+    //TODO: resize all piles
   }
 }
