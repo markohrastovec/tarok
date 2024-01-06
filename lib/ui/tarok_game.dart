@@ -123,54 +123,58 @@ class TarokGame extends FlameGame {
 
     Vector2 visibleGameSize = Vector2 (tablePile.size.x + 2.0 * tablePile.position.x, tablePile.size.y + 2.0 * tablePile.position.y);
 
-    /*List<WinPile> wins = List.generate(
+    List<WinPile> wins = List.generate(
       PlayerPosition.values.length, (i) {
       WinPile winPile = WinPile();
       winPile.size = tablePile.position;
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.South:
-          winPile.position = Vector2.all(winPile.size.x + tablePile.size.x);
+          winPile.position = Vector2 (winPile.size.x + tablePile.size.x, winPile.size.y + tablePile.size.y);
           if (screenRatio < 1.0) {
-            winPile.size.y += excessPlayerSpace;
+            winPile.size.y /= screenRatio;
           }
           else {
-            winPile.size.x += excessPlayerSpace;
+            winPile.size.x *= screenRatio;
           }
           break;
         case PlayerPosition.East:
-          winPile.position = Vector2(winPile.size.y + tablePile.size.x, winPile.size.y);
+          winPile.position = Vector2 (winPile.size.x + tablePile.size.x, winPile.size.y);
           winPile.angle = -pi / 2.0;
           if (screenRatio > 1.0) {
-            winPile.size.y += excessPlayerSpace;
+            winPile.size.y *= screenRatio;
           }
           else {
-            winPile.size.x += excessPlayerSpace;
+            winPile.size.x /= screenRatio;
           }
           break;
         case PlayerPosition.North:
-          winPile.position = Vector2(winPile.size.x, winPile.size.y);
+          winPile.position = Vector2 (winPile.size.x, winPile.size.y);
           winPile.angle = pi;
           if (screenRatio < 1.0) {
-            winPile.size.y += excessPlayerSpace;
+            winPile.size.y /= screenRatio;
           }
           else {
-            winPile.size.x += excessPlayerSpace;
+            winPile.size.x *= screenRatio;
           }
           break;
         case PlayerPosition.West:
-          winPile.position = Vector2(winPile.size.y, winPile.size.y + tablePile.size.x);
+          winPile.position = Vector2 (winPile.size.x, winPile.size.x + tablePile.size.y);
           winPile.angle = pi / 2.0;
           if (screenRatio > 1.0) {
-            winPile.size.y += excessPlayerSpace;
+            winPile.size.y *= screenRatio;
           }
           else {
-            winPile.size.x += excessPlayerSpace;
+            winPile.size.x /= screenRatio;
           }
           break;
       }
       return winPile;
     });
-    world.addAll (wins);*/
+    world.addAll (wins);
+
+    for (int i = 0; i < PlayerPosition.values.length; i++) {
+      wins[i].arrangeDeck();
+    }
 
     List<PlayerPile> players = List.generate(
       PlayerPosition.values.length, (i) {

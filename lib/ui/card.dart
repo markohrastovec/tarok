@@ -63,6 +63,7 @@ class Card extends SpriteComponent with TapCallbacks
   final Face value;
   final Suit suit;
   final String resourceId;
+  bool faceUp = true;
 
   // operators <, > tell which card wins when played
   // TODO:
@@ -81,13 +82,18 @@ class Card extends SpriteComponent with TapCallbacks
   // this can be done, because same cards should bot be compared and two different card cannot be equal
   bool operator > (Card b) { return !(this < b); }
 
-  Card (int _p, int _o, Face _v, Suit _s, String _resId)
+  Card (int _p, int _o, Face _v, Suit _s, String _resId, {bool faceUp = true})
   : points = _p,
     order = _o,
     value = _v,
     suit = _s,
     resourceId = _resId,
-    super.fromImage (Flame.images.fromCache(globals.cardFace + _resId + ".png"), anchor: Anchor.center);
+    super.fromImage (faceUp ? Flame.images.fromCache(globals.cardFace + _resId + ".png") : Flame.images.fromCache(globals.cardBackFace + "backside" + ".png"), anchor: Anchor.center);
+
+  void turnAround () {
+    faceUp = !faceUp;
+    super.sprite!.image = faceUp ? Flame.images.fromCache(globals.cardFace + resourceId + ".png") : Flame.images.fromCache(globals.cardBackFace + "backside" + ".png");
+  }
 
   //TODO: This removes the card on tap down, but it should not when drag event starts with a tap down.
   @override

@@ -80,6 +80,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
     //TODO: re-arrange on resize
   }
 
+  //TODO: If there is not enough space for two rows, see if more cards would be seen in two rows, because in one row the space is too narrow.
   arrangeDeck ({bool setAngle = false}) {
     removeAll(children);
 
