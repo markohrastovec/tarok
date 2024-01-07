@@ -77,11 +77,13 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
   @override
   void onGameResize(Vector2 maxSize) {
     super.onGameResize(maxSize);
-    //TODO: re-arrange on resize
+
+    //arrangeDeck ();
   }
 
   //TODO: If there is not enough space for two rows, see if more cards would be seen in two rows, because in one row the space is too narrow.
   arrangeDeck ({bool setAngle = false}) {
+    //TODO: Add and remove cards only once and then just move them around.
     removeAll(children);
 
     int rows = 1;

@@ -8,6 +8,13 @@ class WinPile extends Pile with TapCallbacks {
   WinPile()
   {}
 
+  @override
+  void onGameResize(Vector2 maxSize) {
+    super.onGameResize(maxSize);
+
+    //arrangeDeck ();
+  }
+
   arrangeDeck ({bool setAngle = false}) {
     removeAll(children);
 

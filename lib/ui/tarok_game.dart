@@ -79,6 +79,10 @@ class TarokGame extends FlameGame {
     globals.cardFace + 'skis.png',
   ];
 
+  TablePile tablePile = TablePile ();
+  List<WinPile> wins = <WinPile>[];
+  List<PlayerPile> players = <PlayerPile>[];
+
   @override
   Future<void> onLoad () async {
     await super.onLoad ();
@@ -86,31 +90,47 @@ class TarokGame extends FlameGame {
     //await Flame.device.fullScreen ();
     //await Flame.device.setLandscape ();
 
-    /*Deck d = Deck ();
-    d.setFullDeck ();
-    d.shuffle (ShuffleMethod.Random);
-    Vector2 pos = Vector2 (600, 0);
-    for (int i = 0; i < d.length; i++) {
-      d[i].angle = Random ().nextInt(2) * pi + 0.2 - Random ().nextDouble() * 0.4;
-      d[i].position = pos;
-      world.add(d[i]);
-      if ((i + 1) % 9 == 0) {
-        pos.x = 600.0;
-        pos.y += 900.0;
-      }
-      else {
-        pos.x += 600.0;
-      }
-    }*/
-
     //TODO: Position elements according to actual screen width/height ratio.
-    //TODO: Move code to a function that is executed on each resize. Calculate ratio from "Rect visibleWorld = camera.visibleWorldRect;"
-    //plan: If width is much different than height, then card along longer border are maximized and 12 shown in a row.
-    //      If this maximization of cards takes more than a third (max card size: 1/3 one row, 1/3 table, 1/3 one row on the opposite)
-    //      of screen along shorter border, cards along shorter border will be arranged in two (or more?) rows.
     double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
 
-    TablePile tablePile = TablePile ();
+    world.add (tablePile);
+
+    wins = List.generate(
+      PlayerPosition.values.length, (i) {
+      WinPile winPile = WinPile ();
+      return winPile;
+    });
+    world.addAll (wins);
+
+    players = List.generate(
+      PlayerPosition.values.length, (i) {
+      PlayerPile playerPile = PlayerPile ();
+      return playerPile;
+    });
+    world.addAll (players);
+
+    arrangePiles ();
+
+    for (int i = 0; i < PlayerPosition.values.length; i++) {
+      wins[i].arrangeDeck();
+    }
+
+    Deck playingDeck = Deck ();
+    playingDeck.setFullDeck ();
+    playingDeck.shuffle (ShuffleMethod.Random);
+    
+    for (int i = 0; i < PlayerPosition.values.length; i++) {
+      for (int j = 0; j < 12; j++) {
+        playingDeck.moveTo (players[i].deck, card: playingDeck[0]);
+      }
+      players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
+      players[i].arrangeDeck (setAngle: true); //TODO: this should be called onMount???
+    }
+  }
+
+  void arrangePiles () {
+    double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
+
     tablePile.position = Vector2.all (Card.cardHeight * (1.0 - Card.cardOverlap));
     double tableSizeFor12Cards = 12 * Card.cardWidth * (1.0 - Card.cardOverlap);
     if (screenRatio >= 1.0) {
@@ -119,113 +139,88 @@ class TarokGame extends FlameGame {
     else {
       tablePile.size = Vector2 (tableSizeFor12Cards * screenRatio, tableSizeFor12Cards);
     }
-    world.add (tablePile);
 
     Vector2 visibleGameSize = Vector2 (tablePile.size.x + 2.0 * tablePile.position.x, tablePile.size.y + 2.0 * tablePile.position.y);
 
-    List<WinPile> wins = List.generate(
-      PlayerPosition.values.length, (i) {
-      WinPile winPile = WinPile();
-      winPile.size = tablePile.position;
+    for (int i = 0; i < wins.length; i++) {
+      wins[i].size = tablePile.position;
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.South:
-          winPile.position = Vector2 (winPile.size.x + tablePile.size.x, winPile.size.y + tablePile.size.y);
+          wins[i].position = Vector2 (wins[i].size.x + tablePile.size.x, wins[i].size.y + tablePile.size.y);
           if (screenRatio < 1.0) {
-            winPile.size.y /= screenRatio;
+            wins[i].size.y /= screenRatio;
           }
           else {
-            winPile.size.x *= screenRatio;
+            wins[i].size.x *= screenRatio;
           }
           break;
         case PlayerPosition.East:
-          winPile.position = Vector2 (winPile.size.x + tablePile.size.x, winPile.size.y);
-          winPile.angle = -pi / 2.0;
+          wins[i].position = Vector2 (wins[i].size.x + tablePile.size.x, wins[i].size.y);
+          wins[i].angle = -pi / 2.0;
           if (screenRatio > 1.0) {
-            winPile.size.y *= screenRatio;
+            wins[i].size.y *= screenRatio;
           }
           else {
-            winPile.size.x /= screenRatio;
+            wins[i].size.x /= screenRatio;
           }
           break;
         case PlayerPosition.North:
-          winPile.position = Vector2 (winPile.size.x, winPile.size.y);
-          winPile.angle = pi;
+          wins[i].position = Vector2 (wins[i].size.x, wins[i].size.y);
+          wins[i].angle = pi;
           if (screenRatio < 1.0) {
-            winPile.size.y /= screenRatio;
+            wins[i].size.y /= screenRatio;
           }
           else {
-            winPile.size.x *= screenRatio;
+            wins[i].size.x *= screenRatio;
           }
           break;
         case PlayerPosition.West:
-          winPile.position = Vector2 (winPile.size.x, winPile.size.x + tablePile.size.y);
-          winPile.angle = pi / 2.0;
+          wins[i].position = Vector2 (wins[i].size.x, wins[i].size.x + tablePile.size.y);
+          wins[i].angle = pi / 2.0;
           if (screenRatio > 1.0) {
-            winPile.size.y *= screenRatio;
+            wins[i].size.y *= screenRatio;
           }
           else {
-            winPile.size.x /= screenRatio;
+            wins[i].size.x /= screenRatio;
           }
           break;
       }
-      return winPile;
-    });
-    world.addAll (wins);
-
-    for (int i = 0; i < PlayerPosition.values.length; i++) {
-      wins[i].arrangeDeck();
     }
 
-    List<PlayerPile> players = List.generate(
-      PlayerPosition.values.length, (i) {
-      PlayerPile playerPile = PlayerPile();
+    for (int i = 0; i < players.length; i++) {
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.South:
-          playerPile.size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
-          playerPile.position = Vector2(playerPile.size.y, playerPile.size.y + tablePile.size.y);
+          players[i].size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].position = Vector2(players[i].size.y, players[i].size.y + tablePile.size.y);
           if (screenRatio < 1.0) {
-            playerPile.size.y /= screenRatio;
+            players[i].size.y /= screenRatio;
           }
           break;
         case PlayerPosition.East:
-          playerPile.size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
-          playerPile.position = Vector2 (playerPile.size.y + tablePile.size.x, playerPile.size.y + tablePile.size.y);
-          playerPile.angle = -pi / 2.0;
+          players[i].size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].position = Vector2 (players[i].size.y + tablePile.size.x, players[i].size.y + tablePile.size.y);
+          players[i].angle = -pi / 2.0;
           if (screenRatio > 1.0) {
-            playerPile.size.y *= screenRatio;
+            players[i].size.y *= screenRatio;
           }
           break;
         case PlayerPosition.North:
-          playerPile.size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
-          playerPile.position = Vector2(playerPile.size.y + tablePile.size.x, playerPile.size.y);
-          playerPile.angle = pi;
+          players[i].size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].position = Vector2(players[i].size.y + tablePile.size.x, players[i].size.y);
+          players[i].angle = pi;
           if (screenRatio < 1.0) {
-            playerPile.size.y /= screenRatio;
+            players[i].size.y /= screenRatio;
           }
           break;
         case PlayerPosition.West:
-          playerPile.size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
-          playerPile.position = Vector2(playerPile.size.y, playerPile.size.y);
-          playerPile.angle = pi / 2.0;
+          players[i].size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].position = Vector2(players[i].size.y, players[i].size.y);
+          players[i].angle = pi / 2.0;
           if (screenRatio > 1.0) {
-            playerPile.size.y *= screenRatio;
+            players[i].size.y *= screenRatio;
           }
           break;
       }
-      return playerPile;
-    });
-    world.addAll (players);
-
-    Deck playingDeck = Deck ();
-    playingDeck.setFullDeck();
-    playingDeck.shuffle(ShuffleMethod.Random);
-    
-    for (int i = 0; i < PlayerPosition.values.length; i++) {
-      for (int j = 0; j < 12; j++) {
-        playingDeck.moveTo(players[i].deck, card: playingDeck[0]);
-      }
-      players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
-      players[i].arrangeDeck(setAngle: true); //TODO: this should be called onMount???
     }
 
     camera.viewfinder.visibleGameSize = visibleGameSize;
