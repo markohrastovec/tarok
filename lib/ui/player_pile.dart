@@ -86,24 +86,25 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
     //TODO: Add and remove cards only once and then just move them around.
     removeAll(children);
 
-    int rows = 1;
-    if (size.x < Card.cardWidth * deck.length) {
-      rows = max ((size.y / (Card.cardHeight * Card.cardOverlap)).floor(), 1);
-    }
-    int columns = ((deck.length + (rows - 1)) / rows).floor();
+    int rows = 0, columns = deck.length;
+    do {
+      rows++;
+      columns = ((deck.length + (rows - 1)) / rows).floor();
 
-    if (deck.length > 1) {
-      _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (columns - 1);
-    }
-    else {
-      _dx = 0.0;
-    }
-    if (rows > 0) {
+      /*if (size.x < Card.cardWidth * deck.length) {
+        rows = max((size.y / (Card.cardHeight * Card.cardOverlap)).floor(), 1);
+      }*/
+
+      //TODO: _dx is calculated differently than _dy. Therefore condition in while should be a little different.
+      if (deck.length > 1) {
+        _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (columns - 1);
+      }
+      else {
+        _dx = 0.0;
+      }
       _dy = size.y / rows;
-    }
-    else {
-      _dy = 0.0;
-    }
+    } while (_dx / Card.cardWidth < _dy / Card.cardHeight);
+
     for (int i = 0; i < deck.length; i++) {
       int row = (i / columns).floor ();
       int column = i % columns;
