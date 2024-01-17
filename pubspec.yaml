@@ -12,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame: ^1.11.0
+  flame: ^1.14.0
 
 flutter_intl:
   enabled: true
@@ -74,3 +74,58 @@ flutter:
     - assets/images/cards/faces/slo/XX.png
     - assets/images/cards/faces/slo/XXI.png
     - assets/images/cards/faces/slo/skis.png
+    - assets/images/cards/backs/slo2/backside.png
+    - assets/images/cards/faces/slo2/clubs_7.png
+    - assets/images/cards/faces/slo2/clubs_8.png
+    - assets/images/cards/faces/slo2/clubs_9.png
+    - assets/images/cards/faces/slo2/clubs_10.png
+    - assets/images/cards/faces/slo2/clubs_jack.png
+    - assets/images/cards/faces/slo2/clubs_knight.png
+    - assets/images/cards/faces/slo2/clubs_queen.png
+    - assets/images/cards/faces/slo2/clubs_king.png
+    - assets/images/cards/faces/slo2/diamonds_1.png
+    - assets/images/cards/faces/slo2/diamonds_2.png
+    - assets/images/cards/faces/slo2/diamonds_3.png
+    - assets/images/cards/faces/slo2/diamonds_4.png
+    - assets/images/cards/faces/slo2/diamonds_jack.png
+    - assets/images/cards/faces/slo2/diamonds_knight.png
+    - assets/images/cards/faces/slo2/diamonds_queen.png
+    - assets/images/cards/faces/slo2/diamonds_king.png
+    - assets/images/cards/faces/slo2/hearts_1.png
+    - assets/images/cards/faces/slo2/hearts_2.png
+    - assets/images/cards/faces/slo2/hearts_3.png
+    - assets/images/cards/faces/slo2/hearts_4.png
+    - assets/images/cards/faces/slo2/hearts_knight.png
+    - assets/images/cards/faces/slo2/hearts_queen.png
+    - assets/images/cards/faces/slo2/hearts_jack.png
+    - assets/images/cards/faces/slo2/hearts_king.png
+    - assets/images/cards/faces/slo2/spades_7.png
+    - assets/images/cards/faces/slo2/spades_8.png
+    - assets/images/cards/faces/slo2/spades_9.png
+    - assets/images/cards/faces/slo2/spades_10.png
+    - assets/images/cards/faces/slo2/spades_jack.png
+    - assets/images/cards/faces/slo2/spades_knight.png
+    - assets/images/cards/faces/slo2/spades_queen.png
+    - assets/images/cards/faces/slo2/spades_king.png
+    - assets/images/cards/faces/slo2/I.png
+    - assets/images/cards/faces/slo2/II.png
+    - assets/images/cards/faces/slo2/III.png
+    - assets/images/cards/faces/slo2/IIII.png
+    - assets/images/cards/faces/slo2/V.png
+    - assets/images/cards/faces/slo2/VI.png
+    - assets/images/cards/faces/slo2/VII.png
+    - assets/images/cards/faces/slo2/VIII.png
+    - assets/images/cards/faces/slo2/IX.png
+    - assets/images/cards/faces/slo2/X.png
+    - assets/images/cards/faces/slo2/XI.png
+    - assets/images/cards/faces/slo2/XII.png
+    - assets/images/cards/faces/slo2/XIII.png
+    - assets/images/cards/faces/slo2/XIV.png
+    - assets/images/cards/faces/slo2/XV.png
+    - assets/images/cards/faces/slo2/XVI.png
+    - assets/images/cards/faces/slo2/XVII.png
+    - assets/images/cards/faces/slo2/XVIII.png
+    - assets/images/cards/faces/slo2/XIX.png
+    - assets/images/cards/faces/slo2/XX.png
+    - assets/images/cards/faces/slo2/XXI.png
+    - assets/images/cards/faces/slo2/skis.png
