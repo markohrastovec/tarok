@@ -97,7 +97,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 
       //TODO: _dx is calculated differently than _dy. Therefore condition in while should be a little different.
       if (deck.length > 1) {
-        _dx = (size.x - 2 * Card.cardWidth * (1.0 - Card.cardOverlap)) / (columns - 1);
+        _dx = (size.x - Card.cardWidth) / (columns - 1);
       }
       else {
         _dx = 0.0;

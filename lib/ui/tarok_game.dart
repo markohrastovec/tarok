@@ -132,7 +132,7 @@ class TarokGame extends FlameGame {
     double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
 
     tablePile.position = Vector2.all (Card.cardHeight * (1.0 - Card.cardOverlap));
-    double tableSizeFor12Cards = 12 * Card.cardWidth * (1.0 - Card.cardOverlap);
+    double tableSizeFor12Cards = Card.cardWidth + 11 * Card.cardWidth * (1.0 - Card.cardOverlap);
     if (screenRatio >= 1.0) {
       tablePile.size = Vector2 (tableSizeFor12Cards, tableSizeFor12Cards / screenRatio);
     }
