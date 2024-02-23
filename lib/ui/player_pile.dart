@@ -8,9 +8,10 @@ import 'pile.dart';
 
 class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 {
-  static const double enlarge = 1.5;
-  static const double enlargeMin = 1 / enlarge;
+  static const double enlarge = 1.5; // by how much cards enlarge when dragged over
+  static const double enlargeMin = 1.0 / enlarge;
   static const double maxRotation = 0.2;
+  int rows = 0, columns = 0;
   double _dx = 0.0;
   double _dy = 0.0;
 
@@ -27,21 +28,16 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
     final cards = children.whereType<Card>();
 
     for (final card in cards) {
-      //TODO: See which will be used. The enlargeFactor with only _dx is unambiguous, because only one card is enlarged/selected.
-      //double enlargeFactor = (_dx - (event.localEndPosition.x - card.position.x).abs()) / (_dx);
-      //double enlargeFactor = (4.0 * _dx - (event.localEndPosition.x - card.position.x).abs()) / (4.0 * _dx);
       double enlargeFactor = 1.0;
       if (card.sprite != null) {
         enlargeFactor = (card.sprite!.originalSize.x * enlarge - (event.localEndPosition.x - card.position.x).abs()) / (card.sprite!.originalSize.x * enlarge);
       }
-      if (enlargeFactor > enlargeMin) {
+      if (enlargeFactor > enlargeMin) { // means combined enlarge is bigger than 1.0
         card.size = Vector2(Card.cardWidth, Card.cardHeight) * enlargeFactor * enlarge;
-        //card.position.y = Card.cardHeight * 0.5 / enlargeFactor;
         card.priority = 100;
       }
       else {
         card.size = Vector2(Card.cardWidth, Card.cardHeight);
-        //card.position.y = Card.cardHeight * 0.5;
         card.priority = deck.deck.indexOf (card);
       }
     }
@@ -54,7 +50,6 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 
     for (final card in cards) {
       card.size = Vector2(Card.cardWidth, Card.cardHeight);
-      //card.priority = deck.deck.indexOf (card);
     }
   }
 
@@ -65,7 +60,6 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
 
     for (final card in cards) {
       card.size = Vector2(Card.cardWidth, Card.cardHeight);
-      //card.priority = deck.deck.indexOf (card);
     }
   }
 
@@ -81,22 +75,17 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
     //arrangeDeck ();
   }
 
-  //TODO: If there is not enough space for two rows, see if more cards would be seen in two rows, because in one row the space is too narrow.
   arrangeDeck ({bool setAngle = false}) {
-    //TODO: Add and remove cards only once and then just move them around.
+    //TODO: Add and remove cards only once and then just move them around. That should removeAll(children) statement, and move add(...) statements somewhere else.
     removeAll(children);
 
-    int rows = 0, columns = deck.length;
+    rows = 0;
+    columns = deck.length;
+    // determine number of rows and columns
     do {
       rows++;
       columns = ((deck.length + (rows - 1)) / rows).floor();
 
-      /*if (size.x < Card.cardWidth * deck.length) {
-        rows = max((size.y / (Card.cardHeight * Card.cardOverlap)).floor(), 1);
-      }*/
-
-      //TODO: _dx is calculated differently than _dy. Therefore condition in while should be a little different.
-      //TODO: _dy should also be calculated differently.
       if (deck.length > 1) {
         _dx = (size.x - Card.cardWidth) / (columns - 1);
       }
@@ -104,8 +93,9 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
         _dx = 0.0;
       }
       _dy = size.y / rows;
-    } while (_dx / Card.cardWidth < _dy / Card.cardHeight);
+    } while (_dx > 0.0 && _dx / Card.cardWidth < _dy / Card.cardHeight);
 
+    // position cards
     for (int i = 0; i < deck.length; i++) {
       int row = (i / columns).floor ();
       int column = i % columns;

@@ -64,11 +64,12 @@ class Card extends SpriteComponent with TapCallbacks
   final Suit suit;
   final String resourceId;
   bool faceUp = true;
+  bool tapped = false;
 
   // operators <, > tell which card wins when played
   // TODO:
   //   - here are special cases when this operators do not apply (suit valat; "XXI" then "skus" then "I" played in that order I wins)
-  //   - comparison of same cards is not covered, but it should neven come in such situation
+  //   - comparison of same cards is not covered, but it should never come in such situation
   //   - in suit valat suits are higher than tarocks
   bool operator < (Card other)
   {
@@ -95,13 +96,24 @@ class Card extends SpriteComponent with TapCallbacks
     super.sprite!.image = faceUp ? Flame.images.fromCache(globals.cardFace + resourceId + ".png") : Flame.images.fromCache(globals.cardBackFace + "backside" + ".png");
   }
 
-  //TODO: This removes the card on tap down, but it should not when drag event starts with a tap down.
+
   @override
   void onTapDown(TapDownEvent event) {
-    /*if (parent.runtimeType == PlayerPile) {
+    tapped = true;
+  }
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    if (tapped == true && parent.runtimeType == PlayerPile) {
+      tapped = false;
       PlayerPile pp = parent as PlayerPile;
       pp.deck.remove (card: this);
       pp.arrangeDeck();
-    }*/
+    }
+  }
+
+  @override
+  void onTapCancel(TapCancelEvent event) {
+    tapped = false;
   }
 }
