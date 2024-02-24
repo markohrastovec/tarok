@@ -117,23 +117,23 @@ class Deck {
     "skis": skis,
   };
 
-  List<Card> deck = [];
+  List<Card> cards = [];
 
   Deck({List<String>? cardNames, List<Card>? cards}) {
-    setDeck(cardNames: cardNames, cards: cards);
+    setDeck(cardNames: cardNames, cardList: cards);
   }
 
   int points() {
     int sum = 0;
-    for (int i = 0; i < deck.length; i += 3) {
-      int sum3 = deck[i].points;
+    for (int i = 0; i < cards.length; i += 3) {
+      int sum3 = cards[i].points;
       int j = 0;
-      if (i + 1 < deck.length) {
-        sum3 += deck[i + 1].points;
+      if (i + 1 < cards.length) {
+        sum3 += cards[i + 1].points;
         j++;
       }
-      if (i + 2 < deck.length) {
-        sum3 += deck[i + 2].points;
+      if (i + 2 < cards.length) {
+        sum3 += cards[i + 2].points;
         j++;
       }
       if (j == 2)
@@ -147,45 +147,45 @@ class Deck {
 
   bool trull() {
     int t = 0;
-    for (int i = 0; i < deck.length && t < 3; i++) {
-      if (deck[i].value == Face.I || deck[i].value == Face.XXI ||
-          deck[i].value == Face.skis) t++;
+    for (int i = 0; i < cards.length && t < 3; i++) {
+      if (cards[i].value == Face.I || cards[i].value == Face.XXI ||
+          cards[i].value == Face.skis) t++;
     }
     return t == 3;
   }
 
   bool allKings() {
     int k = 0;
-    for (int i = 0; i < deck.length && k < 4; i++) {
-      if (deck[i].value == Face.King) k++;
+    for (int i = 0; i < cards.length && k < 4; i++) {
+      if (cards[i].value == Face.King) k++;
     }
     return k == 4;
   }
 
   void add({String? cardName, Card? card}) {
     if (cardName != null)
-      deck.add(dictionary[cardName]!);
+      cards.add(dictionary[cardName]!);
     if (card != null)
-      deck.add(card);
+      cards.add(card);
   }
 
   void remove({String? cardName, Card? card}) {
-    if (cardName != null && deck.contains (dictionary[cardName])) {
-      deck.remove(dictionary[cardName]);
+    if (cardName != null && cards.contains (dictionary[cardName])) {
+      cards.remove(dictionary[cardName]);
     }
-    if (card != null && deck.contains (card)) {
-      deck.remove(card);
+    if (card != null && cards.contains (card)) {
+      cards.remove(card);
     }
   }
 
-  Card operator [](int i) => deck[i];
+  Card operator [](int i) => cards[i];
 
-  operator []=(int i, Card value) => deck[i] = value;
+  operator []=(int i, Card value) => cards[i] = value;
 
-  int get length => deck.length;
+  int get length => cards.length;
 
   void clear() {
-    deck.clear();
+    cards.clear();
   }
 
   void setFullDeck() {
@@ -246,17 +246,17 @@ class Deck {
     add(card: skis);
   }
 
-  void setDeck({List<String>? cardNames, List<Card>? cards}) {
-    deck.clear();
+  void setDeck({List<String>? cardNames, List<Card>? cardList}) {
+    cards.clear();
     if (cardNames != null) {
       for (int i = 0; i < cardNames.length; i++) {
         if (dictionary.containsKey(cardNames[i]))
-          deck.add(dictionary[cardNames[i]]!);
+          cards.add(dictionary[cardNames[i]]!);
       }
     }
-    if (cards != null) {
-      for (int i = 0; i < cards.length; i++) {
-        deck.add(cards[i]);
+    if (cardList != null) {
+      for (int i = 0; i < cardList.length; i++) {
+        cards.add(cardList[i]);
       }
     }
   }
@@ -267,13 +267,13 @@ class Deck {
         randomShuffle();
         break;
       default:
-        deck.shuffle ();
+        cards.shuffle ();
         break;
     }
   }
 
   void randomShuffle () {
-    deck.shuffle ();
+    cards.shuffle ();
     /*for (int i = deck.length - 1; i > 0; i--) {
       int j = Random ().nextInt(i + 1);
 
@@ -290,18 +290,18 @@ class Deck {
 
   void addTo (Deck d) {
     for (int i = 0; i < d.length; i++) {
-      d.add(card: deck[i]);
+      d.add(card: cards[i]);
     }
   }
 
   void moveTo (Deck d, {String? cardName, Card? card}) {
-    if (cardName != null && deck.contains(dictionary[cardName])) {
+    if (cardName != null && cards.contains(dictionary[cardName])) {
       d.add (cardName: cardName);
-      deck.remove (dictionary[cardName]);
+      cards.remove (dictionary[cardName]);
     }
-    if (card != null && deck.contains(card)) {
+    if (card != null && cards.contains(card)) {
       d.add (card: card);
-      deck.remove (card);
+      cards.remove (card);
     }
   }
 
@@ -309,6 +309,6 @@ class Deck {
   // Cards are grouped in suits, then sorted by order in the suit.
   // Suit order is defined by parameter list suits.
   void sort (List<Suit> suits) {
-    deck.sort((a, b) => (suits.indexOf (a.suit) * 100 + a.order) - (suits.indexOf (b.suit) * 100 + b.order));
+    cards.sort((a, b) => (suits.indexOf (a.suit) * 100 + a.order) - (suits.indexOf (b.suit) * 100 + b.order));
   }
 }

@@ -90,7 +90,6 @@ class TarokGame extends FlameGame {
     //await Flame.device.fullScreen ();
     //await Flame.device.setLandscape ();
 
-    //TODO: Position elements according to actual screen width/height ratio.
     double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
 
     world.add (tablePile);
@@ -124,6 +123,7 @@ class TarokGame extends FlameGame {
         playingDeck.moveTo (players[i].deck, card: playingDeck[0]);
       }
       players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
+      players[i].addCards ();
       players[i].arrangeDeck (setAngle: true); //TODO: this should be called onMount???
     }
   }
@@ -232,6 +232,6 @@ class TarokGame extends FlameGame {
   void onGameResize(Vector2 size) {
     super.onGameResize(size);
 
-    //TODO: resize all piles
+    arrangePiles ();
   }
 }

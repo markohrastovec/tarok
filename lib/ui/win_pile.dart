@@ -5,21 +5,18 @@ import 'pile.dart';
 import 'card.dart';
 
 class WinPile extends Pile with TapCallbacks {
-  WinPile()
-  {}
+  WinPile() {}
 
   @override
   void onGameResize(Vector2 maxSize) {
     super.onGameResize(maxSize);
 
-    //arrangeDeck ();
+    arrangeDeck ();
   }
 
-  arrangeDeck ({bool setAngle = false}) {
-    removeAll(children);
-
-    Card card = Card(5, 22, Face.skis, Suit.Tarock, "skis", faceUp: false);
-    card.position = Vector2 (card.width / 2.0, card.height / 2.0);
-    add (card);
+  void arrangeDeck ({bool setAngle = false}) {
+    for (int i = 0; i < deck.length; i++) {
+      deck[i].position = Vector2 (deck[i].width / 2.0, deck[i].height / 2.0);
+    }
   }
 }

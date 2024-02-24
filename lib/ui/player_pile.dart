@@ -38,7 +38,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
       }
       else {
         card.size = Vector2(Card.cardWidth, Card.cardHeight);
-        card.priority = deck.deck.indexOf (card);
+        card.priority = deck.cards.indexOf (card);
       }
     }
   }
@@ -72,13 +72,17 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
   void onGameResize(Vector2 maxSize) {
     super.onGameResize(maxSize);
 
-    //arrangeDeck ();
+    arrangeDeck ();
   }
 
-  arrangeDeck ({bool setAngle = false}) {
-    //TODO: Add and remove cards only once and then just move them around. That should removeAll(children) statement, and move add(...) statements somewhere else.
+  void addCards () {
     removeAll(children);
+    for (int i = 0; i < deck.length; i++) {
+      add (deck[i]);
+    }
+  }
 
+  void arrangeDeck ({bool setAngle = false}) {
     rows = 0;
     columns = deck.length;
     // determine number of rows and columns
@@ -110,7 +114,6 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
       }
       deck[i].size = Vector2 (Card.cardWidth, Card.cardHeight);
       deck[i].priority = i;
-      add (deck[i]);
     }
   }
 }
