@@ -88,8 +88,6 @@ class TarokGame extends FlameGame {
     //await Flame.device.fullScreen ();
     //await Flame.device.setLandscape ();
 
-    double screenRatio = camera.visibleWorldRect.width / camera.visibleWorldRect.height;
-
     world.add (tablePile);
 
     wins = List.generate(
@@ -122,7 +120,7 @@ class TarokGame extends FlameGame {
       }
       players[i].deck.sort ([Suit.Hearts, Suit.Clubs, Suit.Tarock, Suit.Spades, Suit.Diamonds]);
       players[i].addCards ();
-      players[i].arrangeDeck (setAngle: true); //TODO: this should be called onMount???
+      players[i].arrangeDeck (setAngle: true);
     }
   }
 
