@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 import 'pile.dart';
-import 'card.dart';
 
 class WinPile extends Pile with TapCallbacks {
   WinPile() {}
