@@ -179,7 +179,6 @@ class Deck {
   }
 
   Card operator [](int i) => cards[i];
-
   operator []=(int i, Card value) => cards[i] = value;
 
   int get length => cards.length;

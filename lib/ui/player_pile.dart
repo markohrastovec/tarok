@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
+import '../game_logic/deck.dart';
 import 'card.dart';
 import 'pile.dart';
 
@@ -115,5 +116,17 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
       deck[i].size = Vector2 (Card.cardWidth, Card.cardHeight);
       deck[i].priority = i;
     }
+  }
+
+  void removeCard({String? cardName, Card? card}) {
+    for (int i = 0; i < deck.length; i++) {
+      if (cardName != null && Deck.dictionary.containsKey(cardName) && deck[i].value == Deck.dictionary[cardName]!.value && deck[i].suit == Deck.dictionary[cardName]!.suit) {
+        remove (deck[i]);
+      }
+      if (card != null && deck[i] == card) {
+        remove(card);
+      }
+    }
+    deck.remove (cardName: cardName, card: card);
   }
 }

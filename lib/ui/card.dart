@@ -107,7 +107,8 @@ class Card extends SpriteComponent with TapCallbacks
     if (tapped == true && parent.runtimeType == PlayerPile) {
       tapped = false;
       PlayerPile pp = parent as PlayerPile;
-      pp.deck.remove (card: this);
+      pp.removeCard (card: this);
+      //pp.deck.remove (card: this);
       pp.arrangeDeck();
     }
   }
