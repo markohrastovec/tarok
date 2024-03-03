@@ -2,63 +2,63 @@ import 'dart:core';
 
 import '../ui/card.dart';
 
-enum ShuffleMethod { Random }
+enum ShuffleMethod { random }
 
 class Deck {
-  static final Card hearts4 = Card(1, 0, Face.no4, Suit.Hearts, "hearts_4");
-  static final Card hearts3 = Card(1, 1, Face.no3, Suit.Hearts, "hearts_3");
-  static final Card hearts2 = Card(1, 2, Face.no2, Suit.Hearts, "hearts_2");
-  static final Card hearts1 = Card(1, 3, Face.no1, Suit.Hearts, "hearts_1");
-  static final Card heartsJack = Card(2, 4, Face.Jack, Suit.Hearts, "hearts_jack");
-  static final Card heartsKnight = Card(3, 5, Face.Knight, Suit.Hearts, "hearts_knight");
-  static final Card heartsQueen = Card(4, 6, Face.Queen, Suit.Hearts, "hearts_queen");
-  static final Card heartsKing = Card(5, 7, Face.King, Suit.Hearts, "hearts_king");
-  static final Card diamonds4 = Card(1, 0, Face.no4, Suit.Diamonds, "diamonds_4");
-  static final Card diamonds3 = Card(1, 1, Face.no3, Suit.Diamonds, "diamonds_3");
-  static final Card diamonds2 = Card(1, 2, Face.no2, Suit.Diamonds, "diamonds_2");
-  static final Card diamonds1 = Card(1, 3, Face.no1, Suit.Diamonds, "diamonds_1");
-  static final Card diamondsJack = Card(2, 4, Face.Jack, Suit.Diamonds, "diamonds_jack");
-  static final Card diamondsKnight = Card(3, 5, Face.Knight, Suit.Diamonds, "diamonds_knight");
-  static final Card diamondsQueen = Card(4, 6, Face.Queen, Suit.Diamonds, "diamonds_queen");
-  static final Card diamondsKing = Card(5, 7, Face.King, Suit.Diamonds, "diamonds_king");
-  static final Card clubs7 = Card(1, 0, Face.no7, Suit.Clubs, "clubs_7");
-  static final Card clubs8 = Card(1, 1, Face.no8, Suit.Clubs, "clubs_8");
-  static final Card clubs9 = Card(1, 2, Face.no9, Suit.Clubs, "clubs_9");
-  static final Card clubs10 = Card(1, 3, Face.no10, Suit.Clubs, "clubs_10");
-  static final Card clubsJack = Card(2, 4, Face.Jack, Suit.Clubs, "clubs_jack");
-  static final Card clubsKnight = Card(3, 5, Face.Knight, Suit.Clubs, "clubs_knight");
-  static final Card clubsQueen = Card(4, 6, Face.Queen, Suit.Clubs, "clubs_queen");
-  static final Card clubsKing = Card(5, 7, Face.King, Suit.Clubs, "clubs_king");
-  static final Card spades7 = Card(1, 0, Face.no7, Suit.Spades, "spades_7");
-  static final Card spades8 = Card(1, 1, Face.no8, Suit.Spades, "spades_8");
-  static final Card spades9 = Card(1, 2, Face.no9, Suit.Spades, "spades_9");
-  static final Card spades10 = Card(1, 3, Face.no10, Suit.Spades, "spades_10");
-  static final Card spadesJack = Card(2, 4, Face.Jack, Suit.Spades, "spades_jack");
-  static final Card spadesKnight = Card(3, 5, Face.Knight, Suit.Spades, "spades_knight");
-  static final Card spadesQueen = Card(4, 6, Face.Queen, Suit.Spades, "spades_queen");
-  static final Card spadesKing = Card(5, 7, Face.King, Suit.Spades, "spades_king");
-  static final Card I = Card(5, 1, Face.I, Suit.Tarock, "I");
-  static final Card II = Card(1, 2, Face.II, Suit.Tarock, "II");
-  static final Card III = Card(1, 3, Face.III, Suit.Tarock, "III");
-  static final Card IIII = Card(1, 4, Face.IIII, Suit.Tarock, "IIII");
-  static final Card V = Card(1, 5, Face.V, Suit.Tarock, "V");
-  static final Card VI = Card(1, 6, Face.VI, Suit.Tarock, "VI");
-  static final Card VII = Card(1, 7, Face.VII, Suit.Tarock, "VII");
-  static final Card VIII = Card(1, 8, Face.VIII, Suit.Tarock, "VIII");
-  static final Card IX = Card(1, 9, Face.IX, Suit.Tarock, "IX");
-  static final Card X = Card(1, 10, Face.X, Suit.Tarock, "X");
-  static final Card XI = Card(1, 11, Face.XI, Suit.Tarock, "XI");
-  static final Card XII = Card(1, 12, Face.XII, Suit.Tarock, "XII");
-  static final Card XIII = Card(1, 13, Face.XIII, Suit.Tarock, "XIII");
-  static final Card XIV = Card(1, 14, Face.XIV, Suit.Tarock, "XIV");
-  static final Card XV = Card(1, 15, Face.XV, Suit.Tarock, "XV");
-  static final Card XVI = Card(1, 16, Face.XVI, Suit.Tarock, "XVI");
-  static final Card XVII = Card(1, 17, Face.XVII, Suit.Tarock, "XVII");
-  static final Card XVIII = Card(1, 18, Face.XVIII, Suit.Tarock, "XVIII");
-  static final Card XIX = Card(1, 19, Face.XIX, Suit.Tarock, "XIX");
-  static final Card XX = Card(1, 20, Face.XX, Suit.Tarock, "XX");
-  static final Card XXI = Card(5, 21, Face.XXI, Suit.Tarock, "XXI");
-  static final Card skis = Card(5, 22, Face.skis, Suit.Tarock, "skis");
+  static final Card hearts4 = Card(1, 0, Face.no4, Suit.hearts, "hearts_4");
+  static final Card hearts3 = Card(1, 1, Face.no3, Suit.hearts, "hearts_3");
+  static final Card hearts2 = Card(1, 2, Face.no2, Suit.hearts, "hearts_2");
+  static final Card hearts1 = Card(1, 3, Face.no1, Suit.hearts, "hearts_1");
+  static final Card heartsJack = Card(2, 4, Face.jack, Suit.hearts, "hearts_jack");
+  static final Card heartsKnight = Card(3, 5, Face.knight, Suit.hearts, "hearts_knight");
+  static final Card heartsQueen = Card(4, 6, Face.queen, Suit.hearts, "hearts_queen");
+  static final Card heartsKing = Card(5, 7, Face.king, Suit.hearts, "hearts_king");
+  static final Card diamonds4 = Card(1, 0, Face.no4, Suit.diamonds, "diamonds_4");
+  static final Card diamonds3 = Card(1, 1, Face.no3, Suit.diamonds, "diamonds_3");
+  static final Card diamonds2 = Card(1, 2, Face.no2, Suit.diamonds, "diamonds_2");
+  static final Card diamonds1 = Card(1, 3, Face.no1, Suit.diamonds, "diamonds_1");
+  static final Card diamondsJack = Card(2, 4, Face.jack, Suit.diamonds, "diamonds_jack");
+  static final Card diamondsKnight = Card(3, 5, Face.knight, Suit.diamonds, "diamonds_knight");
+  static final Card diamondsQueen = Card(4, 6, Face.queen, Suit.diamonds, "diamonds_queen");
+  static final Card diamondsKing = Card(5, 7, Face.king, Suit.diamonds, "diamonds_king");
+  static final Card clubs7 = Card(1, 0, Face.no7, Suit.clubs, "clubs_7");
+  static final Card clubs8 = Card(1, 1, Face.no8, Suit.clubs, "clubs_8");
+  static final Card clubs9 = Card(1, 2, Face.no9, Suit.clubs, "clubs_9");
+  static final Card clubs10 = Card(1, 3, Face.no10, Suit.clubs, "clubs_10");
+  static final Card clubsJack = Card(2, 4, Face.jack, Suit.clubs, "clubs_jack");
+  static final Card clubsKnight = Card(3, 5, Face.knight, Suit.clubs, "clubs_knight");
+  static final Card clubsQueen = Card(4, 6, Face.queen, Suit.clubs, "clubs_queen");
+  static final Card clubsKing = Card(5, 7, Face.king, Suit.clubs, "clubs_king");
+  static final Card spades7 = Card(1, 0, Face.no7, Suit.spades, "spades_7");
+  static final Card spades8 = Card(1, 1, Face.no8, Suit.spades, "spades_8");
+  static final Card spades9 = Card(1, 2, Face.no9, Suit.spades, "spades_9");
+  static final Card spades10 = Card(1, 3, Face.no10, Suit.spades, "spades_10");
+  static final Card spadesJack = Card(2, 4, Face.jack, Suit.spades, "spades_jack");
+  static final Card spadesKnight = Card(3, 5, Face.knight, Suit.spades, "spades_knight");
+  static final Card spadesQueen = Card(4, 6, Face.queen, Suit.spades, "spades_queen");
+  static final Card spadesKing = Card(5, 7, Face.king, Suit.spades, "spades_king");
+  static final Card I = Card(5, 1, Face.I, Suit.tarock, "I");
+  static final Card II = Card(1, 2, Face.II, Suit.tarock, "II");
+  static final Card III = Card(1, 3, Face.III, Suit.tarock, "III");
+  static final Card IIII = Card(1, 4, Face.IIII, Suit.tarock, "IIII");
+  static final Card V = Card(1, 5, Face.V, Suit.tarock, "V");
+  static final Card VI = Card(1, 6, Face.VI, Suit.tarock, "VI");
+  static final Card VII = Card(1, 7, Face.VII, Suit.tarock, "VII");
+  static final Card VIII = Card(1, 8, Face.VIII, Suit.tarock, "VIII");
+  static final Card IX = Card(1, 9, Face.IX, Suit.tarock, "IX");
+  static final Card X = Card(1, 10, Face.X, Suit.tarock, "X");
+  static final Card XI = Card(1, 11, Face.XI, Suit.tarock, "XI");
+  static final Card XII = Card(1, 12, Face.XII, Suit.tarock, "XII");
+  static final Card XIII = Card(1, 13, Face.XIII, Suit.tarock, "XIII");
+  static final Card XIV = Card(1, 14, Face.XIV, Suit.tarock, "XIV");
+  static final Card XV = Card(1, 15, Face.XV, Suit.tarock, "XV");
+  static final Card XVI = Card(1, 16, Face.XVI, Suit.tarock, "XVI");
+  static final Card XVII = Card(1, 17, Face.XVII, Suit.tarock, "XVII");
+  static final Card XVIII = Card(1, 18, Face.XVIII, Suit.tarock, "XVIII");
+  static final Card XIX = Card(1, 19, Face.XIX, Suit.tarock, "XIX");
+  static final Card XX = Card(1, 20, Face.XX, Suit.tarock, "XX");
+  static final Card XXI = Card(5, 21, Face.XXI, Suit.tarock, "XXI");
+  static final Card skis = Card(5, 22, Face.skis, Suit.tarock, "skis");
 
   static final Map<String, Card> dictionary = {
     "hearts4": hearts4,
@@ -157,16 +157,18 @@ class Deck {
   bool allKings() {
     int k = 0;
     for (int i = 0; i < cards.length && k < 4; i++) {
-      if (cards[i].value == Face.King) k++;
+      if (cards[i].value == Face.king) k++;
     }
     return k == 4;
   }
 
   void add({String? cardName, Card? card}) {
-    if (cardName != null)
+    if (cardName != null) {
       cards.add(dictionary[cardName]!);
-    if (card != null)
+    }
+    if (card != null) {
       cards.add(card);
+    }
   }
 
   void remove({String? cardName, Card? card}) {
@@ -249,8 +251,9 @@ class Deck {
     cards.clear();
     if (cardNames != null) {
       for (int i = 0; i < cardNames.length; i++) {
-        if (dictionary.containsKey(cardNames[i]))
+        if (dictionary.containsKey(cardNames[i])) {
           cards.add(dictionary[cardNames[i]]!);
+        }
       }
     }
     if (cardList != null) {
@@ -262,7 +265,7 @@ class Deck {
 
   void shuffle(ShuffleMethod s) {
     switch (s) {
-      case ShuffleMethod.Random:
+      case ShuffleMethod.random:
         randomShuffle();
         break;
       default:

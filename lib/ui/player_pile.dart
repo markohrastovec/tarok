@@ -4,11 +4,12 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
 import '../game_logic/deck.dart';
+import 'tarok_game.dart';
+import 'main_page.dart';
 import 'card.dart';
 import 'pile.dart';
 
-class PlayerPile extends Pile with TapCallbacks, DragCallbacks
-{
+class PlayerPile extends Pile with TapCallbacks, DragCallbacks, HasGameReference<TarokGame> {
   static const double enlarge = 1.5; // by how much cards enlarge when dragged over
   static const double enlargeMin = 1.0 / enlarge;
   static const double maxRotation = 0.2;
@@ -70,8 +71,8 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
   }
 
   @override
-  void onGameResize(Vector2 maxSize) {
-    super.onGameResize(maxSize);
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
 
     arrangeDeck ();
   }
@@ -84,6 +85,11 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
   }
 
   void arrangeDeck ({bool setAngle = false}) {
+    if (deck.length == 0) {
+      //TODO: Find a way to get MainPage reference, or make gamelogic to take care of that
+      /*MainPage mp = game.router.findGame() as MainPage;
+      mp.gameOver ();*/
+    }
     rows = 0;
     columns = deck.length;
     // determine number of rows and columns
@@ -124,7 +130,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks
         remove (deck[i]);
       }
       if (card != null && deck[i] == card) {
-        remove(card);
+        remove (card);
       }
     }
     deck.remove (cardName: cardName, card: card);

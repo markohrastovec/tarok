@@ -8,11 +8,11 @@ import 'package:tarok/ui/player_pile.dart';
 import '../globals.dart' as globals;
 
 enum Suit {
-  Hearts,
-  Diamonds,
-  Clubs,
-  Spades,
-  Tarock
+  hearts,
+  diamonds,
+  clubs,
+  spades,
+  tarock
 }
 
 enum Face
@@ -25,10 +25,10 @@ enum Face
   no8,
   no9,
   no10,
-  Jack,
-  Knight,
-  Queen,
-  King,
+  jack,
+  knight,
+  queen,
+  king,
   I,
   II,
   III,
@@ -74,8 +74,8 @@ class Card extends SpriteComponent with TapCallbacks
   bool operator < (Card other)
   {
     if (suit == other.suit) return (order < other.order) ? true : false;
-    if (suit == Suit.Tarock && other.suit != Suit.Tarock) return true;
-    if (suit != Suit.Tarock && other.suit == Suit.Tarock) return false;
+    if (suit == Suit.tarock && other.suit != Suit.tarock) return true;
+    if (suit != Suit.tarock && other.suit == Suit.tarock) return false;
     // should not come here
     return false;
   }
@@ -89,11 +89,11 @@ class Card extends SpriteComponent with TapCallbacks
     value = _v,
     suit = _s,
     resourceId = _resId,
-    super.fromImage (faceUp ? Flame.images.fromCache(globals.cardFace + _resId + ".png") : Flame.images.fromCache(globals.cardBackFace + "backside" + ".png"), anchor: Anchor.center);
+    super.fromImage (faceUp ? Flame.images.fromCache("${globals.cardFace}$_resId.png") : Flame.images.fromCache("${globals.cardBackFace}backside.png"), anchor: Anchor.center);
 
   void turnAround () {
     faceUp = !faceUp;
-    super.sprite!.image = faceUp ? Flame.images.fromCache(globals.cardFace + resourceId + ".png") : Flame.images.fromCache(globals.cardBackFace + "backside" + ".png");
+    super.sprite!.image = faceUp ? Flame.images.fromCache("${globals.cardFace}$resourceId.png") : Flame.images.fromCache("${globals.cardBackFace}backside.png");
   }
 
 
