@@ -97,7 +97,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks, HasGameReference
       rows++;
       columns = ((deck.length + (rows - 1)) / rows).floor();
 
-      if (deck.length > 1) {
+      if (columns > 1) {
         _dx = (size.x - Card.cardWidth) / (columns - 1);
       }
       else {
@@ -113,12 +113,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks, HasGameReference
       if (setAngle) {
         deck[i].angle = Random ().nextInt (2) * pi + maxRotation - Random ().nextDouble () * maxRotation * 2.0;
       }
-      if (deck.length == 1) {
-        deck[i].position = Vector2 (size.x / 2.0, Card.cardHeight * 0.5);
-      }
-      else {
-        deck[i].position = Vector2 (Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * column, Card.cardHeight * (1 - Card.cardOverlap) + _dy * row);
-      }
+      deck[i].position = Vector2 ((columns == 1) ? size.x / 2.0 : Card.cardWidth * (1.0 - Card.cardOverlap) + _dx * column, Card.cardHeight * (1 - Card.cardOverlap) + _dy * row);
       deck[i].size = Vector2 (Card.cardWidth, Card.cardHeight);
       deck[i].priority = i;
     }
