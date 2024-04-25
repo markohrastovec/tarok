@@ -1,3 +1,6 @@
+//TODO: GameLogic class shall have game logic, cards,..., and added to Flame game as mixin
+//      In that way, game logic will be separated from GUI.
+
 /*
 using System.Collections.Generic;
 

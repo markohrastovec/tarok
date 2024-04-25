@@ -5,7 +5,6 @@ import 'package:flame/events.dart';
 
 import '../game_logic/deck.dart';
 import 'tarok_game.dart';
-import 'main_page.dart';
 import 'card.dart';
 import 'pile.dart';
 
