@@ -1,10 +1,5 @@
-/*
-using System;
+import 'base_rules.dart';
 
-namespace GameLogic
-{
-class SlovenianRules : BaseRules
+class SlovenianRules extends BaseRules
 {
 }
-}
-*/

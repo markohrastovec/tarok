@@ -1,19 +1,8 @@
-/*
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GameLogic
+class ProbabilityPlayer inherits AbstractPlayer
 {
-/// <summary>
-/// Advanced player, who keeps record of all card played (seen), opponents, etc.
-/// Probability calculations allow the player to predict how high are the chances to win a particular take or the whole game.
-/// Keeping records about played cards allows to predict, which cards are in opponents hands.
-/// </summary>
-public class ProbabilityPlayer : AbstractPlayer
-{
-public ProbabilityPlayer (BaseRules _r, Deck _d) : base (_r, _d)
-{ }
+  ProbabilityPlayer (BaseRules _r, Deck _d) : base (_r, _d)
+  { }
 
 public override Game.GameBidValue Bid (Game game)
 {

@@ -1,148 +1,160 @@
-/*
-using System;
-using System.Collections.Generic;
-using System.Text;
+import 'dart:core';
 
-namespace GameLogic
+import 'card.dart';
+import 'deck.dart';
+
+enum GameBidValue
 {
-public abstract class BaseRules
+  none (0),
+  three (10),
+  two (20),
+  one (30),
+  soloThree (40),
+  soloTwo (50),
+  soloOne (60),
+  beggar (70),
+  soloWithout (80),
+  openBeggar (90),
+  colorValat (125),
+  regularValat (250);
+
+  final int points;
+  const GameBidValue (this.points);
+
+  bool operator < (GameBidValue gbv) => points < gbv.points;
+  bool operator > (GameBidValue gbv) => points > gbv.points;
+}
+
+enum TalonPortion
 {
-  public class GameBid
+  none (0),
+  one (1),
+  two (2),
+  three (3);
+
+  final int portion;
+  const TalonPortion (this.portion);
+}
+
+class GameBid
+{
+  GameBidValue bidValue;
+  TalonPortion talonPortion;
+
+  GameBid (this.bidValue, this.talonPortion);
+}
+
+enum PlayersMode
+{
+  //two (2),
+  three (3),
+  four (4);
+
+  final int mode;
+  const PlayersMode (this.mode);
+}
+
+enum PlayingMode
+{
+  regular,
+  tick,
+  beggar,
+  colorValat
+}
+
+abstract class BaseRules
+{
+  static GameBid bidNone = GameBid (GameBidValue.none, TalonPortion.none);
+  static GameBid bidThree = GameBid (GameBidValue.three, TalonPortion.three);
+  static GameBid bidTwo = GameBid (GameBidValue.two, TalonPortion.two);
+  static GameBid bidOne = GameBid (GameBidValue.one, TalonPortion.one);
+  static GameBid bidSoloThree = GameBid (GameBidValue.soloThree, TalonPortion.three);
+  static GameBid bidSoloTwo = GameBid (GameBidValue.soloTwo, TalonPortion.two);
+  static GameBid bidSoloOne = GameBid (GameBidValue.soloOne, TalonPortion.one);
+  static GameBid bidBeggar = GameBid (GameBidValue.beggar, TalonPortion.none);
+  static GameBid bidSoloWithout = GameBid (GameBidValue.soloWithout, TalonPortion.none);
+  static GameBid bidOpenBeggar = GameBid (GameBidValue.openBeggar, TalonPortion.none);
+  static GameBid bidColorValat = GameBid (GameBidValue.colorValat, TalonPortion.none);
+  static GameBid bidRegularValat = GameBid (GameBidValue.regularValat, TalonPortion.none);
+
+  PlayingMode playingMode;
+  late Map<PlayersMode, List<GameBid>> possibleBids;
+
+  BaseRules (this.playingMode)
   {
-  public GameBidValue bidValue;
-  public TalonPortion talonPortion;
+    //possibleBids = Map<PlayersMode, List<GameBid>> ();
+    possibleBids[PlayersMode.three] = [bidNone, bidThree, bidTwo, bidOne, bidBeggar, bidSoloWithout, bidOpenBeggar, bidColorValat, bidRegularValat];
+    possibleBids[PlayersMode.four] = [bidNone, bidThree, bidTwo, bidOne, bidSoloThree, bidSoloTwo, bidSoloOne, bidBeggar, bidSoloWithout, bidOpenBeggar, bidColorValat, bidRegularValat];
+  }
 
-  public GameBid (GameBidValue _v, TalonPortion _tp)
+  Card? winnerCard (Deck onTable)
   {
-  bidValue = _v;
-  talonPortion = _tp;
-  }
+    Card? max;
+    Suit firstSuit;
+    int pagatMayWin = 0;
+
+    if (onTable.Count > 0) {
+      firstSuit = onTable[0].suit;
+    }
+    else {
+      return null;
+    }
+
+    for (int i = 0; i < onTable.Count; i++) {
+      // only if pagat is not the winner over XXI and Skus
+      if (pagatMayWin != 3) {
+        // first card is always a winner, until higher is found
+        max ??= onTable[i];
+        // if first card is tarock only order determined higher, as other colors have lower order
+        if (firstSuit == Suit.tarock && onTable[i].order > max!.order) {
+          max = onTable[i];
+        }
+        // if first card is not tarock, same color of higher order wins or tarock of higher order in case it is not ColorValat mode
+        if (firstSuit != Suit.tarock && (onTable[i].Color == firstSuit || (onTable[i].suit == Suit.tarock && playingMode != PlayingMode.colorValat)) && onTable[i].Order > max!.order) {
+          max = onTable[i];
+        }
+      }
+      // See if XXI, Skus and I (pagat) are laid in this order. In that case pagat wins, but only if the first card is not other color in ColorValat mode.
+      // max is compared here because in ColorValat XXI may not be max and in that case pagat cannot win
+      if (pagatMayWin == 0 && max!.value == Deck.XXI) {
+        pagatMayWin = 1;
+      }
+      // max is compared here because in ColorValat Skus may not be max and in that case pagat cannot win
+      if (pagatMayWin == 1 && max!.value == Deck.Skus) {
+        pagatMayWin = 2;
+      }
+      // onTable[i] is compared here because pagat will not be max, and may become max
+      if (pagatMayWin == 2 && onTable[i].value == Deck.I) {
+        pagatMayWin = 3;
+        max = onTable[i];
+      }
+    }
+    return max;
   }
 
-  public enum PlayersMode
+  int winnerIndex (Deck onTable)
   {
-  //Two = 2,
-  Three = 3,
-  Four = 4
-  }
-  public abstract PlayersMode[] PossiblePlayers ();
-  public PlayersMode NoOfPlayers;
-
-  public enum PlayingMode
-  {
-  Regular,
-  Tick,
-  Begger,
-  ColorValat
-  };
-  public abstract PlayingMode[] PossiblePlayingModes ();
-
-  protected PlayingMode mode;
-  public PlayingMode Mode { get { return mode; } set { mode = value; } }
-
-  public enum GameBidValue
-  {
-  None = 0,
-  Three = 10,
-  Two = 20,
-  One = 30,
-  SoloThree = 40,
-  SoloTwo = 50,
-  SoloOne = 60,
-  Beggar = 70,
-  SoloWithout = 80,
-  OpenBeggar = 90,
-  ColorValat = 125,
-  RegularValat = 250
-  }
-  public static GameBid bidNone = new GameBid (BaseRules.GameBidValue.None, TalonPortion.None);
-  public static GameBid bidThree = new GameBid (GameBidValue.Three, TalonPortion.Three);
-  public static GameBid bidTwo = new GameBid (GameBidValue.Two, TalonPortion.Two);
-  public static GameBid bidOne = new GameBid (GameBidValue.One, TalonPortion.One);
-  public static GameBid bidSoloThree = new GameBid (GameBidValue.SoloThree, TalonPortion.Three);
-  public static GameBid bidSoloTwo = new GameBid (GameBidValue.SoloTwo, TalonPortion.Two);
-  public static GameBid bidSoloOne = new GameBid (GameBidValue.SoloOne, TalonPortion.One);
-  public static GameBid bidBegger = new GameBid (GameBidValue.Begger, TalonPortion.None);
-  public static GameBid bidSoloWithout = new GameBid (GameBidValue.SoloWithout, TalonPortion.None);
-  public static GameBid bidOpenBegger = new GameBid (GameBidValue.OpenBegger, TalonPortion.None);
-  public static GameBid bidColorValat = new GameBid (GameBidValue.ColorValat, TalonPortion.None);
-  public static GameBid bidRegularValat = new GameBid (GameBidValue.RegularValat, TalonPortion.None);
-
-  public Dictionary<NoOfPlayers, GameBid[]> PossibleBids;
-
-  public enum TalonPortion
-  {
-  None = 0,
-  One = 1,
-  Two = 2,
-  Three = 3
-  }
-
-  static BaseRules ()
-  {
-  PossibleBids = new Dictionary<NoOfPlayers, GameBid[]> ();
-  PossibleBids.Add (Players.Three, new GameBid[] { bidNone, bidThree, bidTwo, bidOne, bidBegger, bidSoloWithout, bidOpenBegger, bidColorValat, bidRegularValat });
-  PossibleBids.Add (Players.Four, new GameBid[] { bidNone, bidThree, bidTwo, bidOne, bidSoloThree, bidSoloTwo, bidSoloOne, bidBegger, bidSoloWithout, bidOpenBegger, bidColorValat, bidRegularValat });
-  }
-
-  public Card WinnerCard (Deck onTable)
-  {
-  Card max = null;
-  Card.CardColor firstColor;
-  int pagatMayWin = 0;
-
-  if (onTable.Count > 0) firstColor = onTable[0].Color;
-  else return null;
-
-  for (int i = 0; i < onTable.Count; i++) {
-  // only if pagat is not the winner over XXI and Skus
-  if (pagatMayWin != 3) {
-  // first card is always a winner, until higher is found
-  if (max == null)
-  max = onTable[i];
-  // if first card is tarock only order determined higher, as other colors have lower order
-  if (firstColor == Card.CardColor.Tarock && onTable[i].Order > max.Order)
-  max = onTable[i];
-  // if first card is not tarock, same color of higher order wins or tarock of higher order in case it is not ColorValat mode
-  if (firstColor != Card.CardColor.Tarock && (onTable[i].Color == firstColor || (onTable[i].Color == Card.CardColor.Tarock && mode != PlayingMode.ColorValat)) && onTable[i].Order > max.Order)
-  max = onTable[i];
-  }
-  // See if XXI, Skus and I (pagat) are laid in this order. In that case pagat wins, but only if the first card is not other color in ColorValat mode.
-  // max is compared here because in ColorValat XXI may not be max and in that case pagat cannot win
-  if (pagatMayWin == 0 && max.Value == Card.CardValue.XXI) {
-  pagatMayWin = 1;
-  }
-  // max is compared here because in ColorValat Skus may not be max and in that case pagat cannot win
-  if (pagatMayWin == 1 && max.Value == Card.CardValue.Skus) {
-  pagatMayWin = 2;
-  }
-  // onTable[i] is compared here because pagat will not be max, and may become max
-  if (pagatMayWin == 2 && onTable[i].Value == Card.CardValue.I) {
-  pagatMayWin = 3;
-  max = onTable[i];
-  }
-  }
-  return max;
-  }
-
-  public int WinnerIndex (Deck onTable)
-  {
-  Card c = WinnerCard (onTable);
-  return onTable.FindIndex (c.Equals);
+    Card? c = winnerCard (onTable);
+    if (c != null) {
+      return onTable.cards.indexOf(c);
+    }
+    else {
+      return -1;
+    }
   }
 }
 
-public Deck GetPlayableCards (Deck playersDeck, Deck onTable)
+Deck GetPlayableCards (Deck playersDeck, Deck onTable)
 {
-  Card.CardColor firstColor;
-  Deck playableDeck = new Deck ();
+  Suit firstSuit;
+  Deck playableDeck = Deck ();
 
-  if (onTable.Count > 0) {
-    firstColor = onTable[0].Color;
-    playableDeck = playersDeck.SameKind (firstColor);
-    if (playableDeck.Count == 0) {
-      if (firstColor == Card.CardColor.Tarock) {
-        playersDeck.CopyTo (ref playableDeck);
+  if (onTable.cards.isNotEmpty) {
+    firstSuit = onTable[0].suit;
+    playableDeck = playersDeck.sameKind (firstSuit);
+    if (playableDeck.cards.isEmpty) {
+      if (firstSuit == Suit.tarock) {
+        playableDeck.cards = List<Card>.from (playersDeck.cards);
       }
       else {
         playableDeck = playersDeck.Tarocks;
@@ -157,5 +169,3 @@ public Deck GetPlayableCards (Deck playersDeck, Deck onTable)
   }
   return playableDeck;
 }
-}
-*/

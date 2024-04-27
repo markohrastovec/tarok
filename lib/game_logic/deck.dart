@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import '../ui/card.dart';
+import 'card.dart';
 
 enum ShuffleMethod { random }
 
@@ -312,5 +312,14 @@ class Deck {
   // Suit order is defined by parameter list suits.
   void sort (List<Suit> suits) {
     cards.sort((a, b) => (suits.indexOf (a.suit) * 100 + a.order) - (suits.indexOf (b.suit) * 100 + b.order));
+  }
+
+  Deck sameKind (Suit s)
+  {
+    Deck d = Deck ();
+    for(Card c in cards) {
+      d.cards.add (c);
+    }
+    return d;
   }
 }
