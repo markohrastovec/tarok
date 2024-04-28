@@ -6,7 +6,12 @@ abstract class AbstractPlayer
   late Deck hand, won;
   GameBid myBid;
 
-  AbstractPlayer (this.hand, this.win);
+  AbstractPlayer ()
+  : myBid = GameBid(GameBidValue.none, TalonPortion.none);
+
+  void emptyHand() {
+    hand.clear ();
+  }
 
   /*Card Move (Deck onTable);
   GameBid Bid (Game game);

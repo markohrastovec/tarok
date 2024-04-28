@@ -77,10 +77,11 @@ abstract class BaseRules
   static GameBid bidColorValat = GameBid (GameBidValue.colorValat, TalonPortion.none);
   static GameBid bidRegularValat = GameBid (GameBidValue.regularValat, TalonPortion.none);
 
-  PlayingMode playingMode;
+  late PlayersMode noOfPlayers;
+  late PlayingMode playingMode;
   late Map<PlayersMode, List<GameBid>> possibleBids;
 
-  BaseRules (this.playingMode)
+  BaseRules ()
   {
     //possibleBids = Map<PlayersMode, List<GameBid>> ();
     possibleBids[PlayersMode.three] = [bidNone, bidThree, bidTwo, bidOne, bidBeggar, bidSoloWithout, bidOpenBeggar, bidColorValat, bidRegularValat];
@@ -154,18 +155,18 @@ Deck getPlayableCards (Deck playersDeck, Deck onTable)
     playableDeck = playersDeck.sameKind (firstSuit);
     if (playableDeck.cards.isEmpty) {
       if (firstSuit == Suit.tarock) {
-        playableDeck.cards = List<Card>.from (playersDeck.cards);
+        playersDeck.copyTo(playableDeck);
       }
       else {
         playableDeck = playersDeck.tarocks ();
         if (playableDeck.cards.isEmpty) {
-          playableDeck.cards = List<Card>.from (playersDeck.cards);
+          playersDeck.copyTo(playableDeck);
         }
       }
     }
   }
   else {
-    playableDeck.cards = List<Card>.from (playersDeck.cards);
+    playersDeck.copyTo(playableDeck);
   }
   return playableDeck;
 }

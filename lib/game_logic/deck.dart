@@ -285,14 +285,16 @@ class Deck {
   }
 
   void copyTo (Deck d) {
-    d.clear();
-    addTo(d);
+    cards = List<Card>.from (d.cards);
+    /*d.clear();
+    addTo(d);*/
   }
 
   void addTo (Deck d) {
-    for (int i = 0; i < d.length; i++) {
+    cards.addAll (d.cards);
+    /*for (int i = 0; i < d.length; i++) {
       d.add(card: cards[i]);
-    }
+    }*/
   }
 
   void moveTo (Deck d, {String? cardName, Card? card}) {
