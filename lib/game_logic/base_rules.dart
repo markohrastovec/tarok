@@ -93,14 +93,14 @@ abstract class BaseRules
     Suit firstSuit;
     int pagatMayWin = 0;
 
-    if (onTable.Count > 0) {
+    if (onTable.cards.isNotEmpty) {
       firstSuit = onTable[0].suit;
     }
     else {
       return null;
     }
 
-    for (int i = 0; i < onTable.Count; i++) {
+    for (int i = 0; i < onTable.cards.length; i++) {
       // only if pagat is not the winner over XXI and Skus
       if (pagatMayWin != 3) {
         // first card is always a winner, until higher is found
@@ -110,7 +110,7 @@ abstract class BaseRules
           max = onTable[i];
         }
         // if first card is not tarock, same color of higher order wins or tarock of higher order in case it is not ColorValat mode
-        if (firstSuit != Suit.tarock && (onTable[i].Color == firstSuit || (onTable[i].suit == Suit.tarock && playingMode != PlayingMode.colorValat)) && onTable[i].Order > max!.order) {
+        if (firstSuit != Suit.tarock && (onTable[i].suit == firstSuit || (onTable[i].suit == Suit.tarock && playingMode != PlayingMode.colorValat)) && onTable[i].order > max!.order) {
           max = onTable[i];
         }
       }
@@ -120,7 +120,7 @@ abstract class BaseRules
         pagatMayWin = 1;
       }
       // max is compared here because in ColorValat Skus may not be max and in that case pagat cannot win
-      if (pagatMayWin == 1 && max!.value == Deck.Skus) {
+      if (pagatMayWin == 1 && max!.value == Deck.skis) {
         pagatMayWin = 2;
       }
       // onTable[i] is compared here because pagat will not be max, and may become max
@@ -144,7 +144,7 @@ abstract class BaseRules
   }
 }
 
-Deck GetPlayableCards (Deck playersDeck, Deck onTable)
+Deck getPlayableCards (Deck playersDeck, Deck onTable)
 {
   Suit firstSuit;
   Deck playableDeck = Deck ();
@@ -157,15 +157,15 @@ Deck GetPlayableCards (Deck playersDeck, Deck onTable)
         playableDeck.cards = List<Card>.from (playersDeck.cards);
       }
       else {
-        playableDeck = playersDeck.Tarocks;
-        if (playableDeck.Count == 0) {
-          playersDeck.CopyTo (ref playableDeck);
+        playableDeck = playersDeck.tarocks ();
+        if (playableDeck.cards.isEmpty) {
+          playableDeck.cards = List<Card>.from (playersDeck.cards);
         }
       }
     }
   }
   else {
-    playersDeck.CopyTo (ref playableDeck);
+    playableDeck.cards = List<Card>.from (playersDeck.cards);
   }
   return playableDeck;
 }

@@ -118,6 +118,10 @@ class Deck {
   };
 
   List<Card> cards = [];
+  Card operator [](int i) => cards[i];
+  operator []=(int i, Card value) => cards[i] = value;
+
+  int get length => cards.length;
 
   Deck({List<String>? cardNames, List<Card>? cards}) {
     setDeck(cardNames: cardNames, cardList: cards);
@@ -179,11 +183,6 @@ class Deck {
       cards.remove(card);
     }
   }
-
-  Card operator [](int i) => cards[i];
-  operator []=(int i, Card value) => cards[i] = value;
-
-  int get length => cards.length;
 
   void clear() {
     cards.clear();
@@ -319,6 +318,17 @@ class Deck {
     Deck d = Deck ();
     for(Card c in cards) {
       d.cards.add (c);
+    }
+    return d;
+  }
+
+  Deck tarocks ()
+  {
+    Deck d = Deck ();
+    for (Card c in cards) {
+      if (c.suit == Suit.tarock) {
+        d.cards.add (c);
+      }
     }
     return d;
   }
