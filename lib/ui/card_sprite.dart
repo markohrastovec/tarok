@@ -5,56 +5,10 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:tarok/ui/player_pile.dart';
 
+import '../game_logic/card.dart';
 import '../globals.dart' as globals;
 
-enum Suit {
-  hearts,
-  diamonds,
-  clubs,
-  spades,
-  tarock
-}
-
-enum Face
-{
-  no1,
-  no2,
-  no3,
-  no4,
-  no7,
-  no8,
-  no9,
-  no10,
-  jack,
-  knight,
-  queen,
-  king,
-  I,
-  II,
-  III,
-  IIII,
-  IV,
-  V,
-  VI,
-  VII,
-  VIII,
-  IX,
-  X,
-  XI,
-  XII,
-  XIII,
-  XIV,
-  XV,
-  XVI,
-  XVII,
-  XVIII,
-  XIX,
-  XX,
-  XXI,
-  skis
-}
-
-class Card extends SpriteComponent with TapCallbacks
+class CardSprite extends SpriteComponent with TapCallbacks
 {
   static const double cardWidth = 900;
   static const double cardHeight = 1600;
@@ -83,7 +37,7 @@ class Card extends SpriteComponent with TapCallbacks
   // this can be done, because same cards should bot be compared and two different card cannot be equal
   bool operator > (Card b) { return !(this < b); }
 
-  Card (int _p, int _o, Face _v, Suit _s, String _resId, {bool faceUp = true})
+  CardSprite (int _p, int _o, Face _v, Suit _s, String _resId, {bool faceUp = true})
   : points = _p,
     order = _o,
     value = _v,

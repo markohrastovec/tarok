@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 
+import '../game_logic/card.dart';
 import 'tarok_game.dart';
-import 'card.dart';
+import 'card_sprite.dart';
 import '../game_logic/deck.dart';
 import 'player_pile.dart';
 import 'win_pile.dart';

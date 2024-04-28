@@ -5,7 +5,7 @@ import 'basic_player.dart';
 import 'deck.dart';
 import 'slovenian_rules.dart';
 
-class Tarock {
+mixin Tarock {
   late Deck onTable;
   late List<AbstractPlayer> player;
   late Deck talon, fullDeck;
@@ -14,7 +14,7 @@ class Tarock {
   late BaseRules gameRules;
   late Map<int, GameBid> currentBids;
 
-  Tarock(int whoStarts) {
+  /*Tarock(int whoStarts) {
     onTable = Deck();
     gameRules = SlovenianRules();
     startingPlayer = whoStarts;
@@ -26,7 +26,7 @@ class Tarock {
     for (int i = 0; i < gameRules.noOfPlayers.mode; i++) {
       player.add(BasicPlayer());
     }
-  }
+  }*/
 
   void deal() {
     for (int i = 0; i < gameRules.noOfPlayers.mode; i++) {

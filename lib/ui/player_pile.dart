@@ -5,7 +5,7 @@ import 'package:flame/events.dart';
 
 import '../game_logic/deck.dart';
 import 'tarok_game.dart';
-import 'card.dart';
+import 'card_sprite.dart';
 import 'pile.dart';
 
 class PlayerPile extends Pile with TapCallbacks, DragCallbacks, HasGameReference<TarokGame> {
@@ -26,7 +26,7 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks, HasGameReference
 
   @override
   void onDragUpdate(DragUpdateEvent event) {
-    final cards = children.whereType<Card>();
+    final cards = children.whereType<CardSprite>();
 
     for (final card in cards) {
       double enlargeFactor = 1.0;
@@ -34,11 +34,11 @@ class PlayerPile extends Pile with TapCallbacks, DragCallbacks, HasGameReference
         enlargeFactor = (card.sprite!.originalSize.x * enlarge - (event.localEndPosition.x - card.position.x).abs()) / (card.sprite!.originalSize.x * enlarge);
       }
       if (enlargeFactor > enlargeMin) { // means combined enlarge is bigger than 1.0
-        card.size = Vector2(Card.cardWidth, Card.cardHeight) * enlargeFactor * enlarge;
+        card.size = Vector2(CardSprite.cardWidth, CardSprite.cardHeight) * enlargeFactor * enlarge;
         card.priority = 100;
       }
       else {
-        card.size = Vector2(Card.cardWidth, Card.cardHeight);
+        card.size = Vector2(CardSprite.cardWidth, CardSprite.cardHeight);
         card.priority = deck.cards.indexOf (card);
       }
     }
