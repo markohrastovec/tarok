@@ -63,8 +63,8 @@ class MainPage extends Component with HasGameReference<TarokGame> {
   void arrangePiles () {
     double screenRatio = game.camera.visibleWorldRect.width / game.camera.visibleWorldRect.height;
 
-    tablePile.position = Vector2.all (Card.cardHeight * (1.0 - Card.cardOverlap));
-    double tableSizeFor12Cards = Card.cardWidth + 11 * Card.cardWidth * (1.0 - Card.cardOverlap);
+    tablePile.position = Vector2.all (CardSprite.cardHeight * (1.0 - CardSprite.cardOverlap));
+    double tableSizeFor12Cards = CardSprite.cardWidth + 11 * CardSprite.cardWidth * (1.0 - CardSprite.cardOverlap);
     if (screenRatio >= 1.0) {
       tablePile.size = Vector2 (tableSizeFor12Cards, tableSizeFor12Cards / screenRatio);
     }
@@ -122,14 +122,14 @@ class MainPage extends Component with HasGameReference<TarokGame> {
     for (int i = 0; i < players.length; i++) {
       switch (PlayerPosition.values[i]) {
         case PlayerPosition.south:
-          players[i].size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].size = Vector2(tablePile.size.x, CardSprite.cardHeight * (1.0 - CardSprite.cardOverlap));
           players[i].position = Vector2(players[i].size.y, players[i].size.y + tablePile.size.y);
           if (screenRatio < 1.0) {
             players[i].size.y /= screenRatio;
           }
           break;
         case PlayerPosition.east:
-          players[i].size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].size = Vector2(tablePile.size.y, CardSprite.cardHeight * (1.0 - CardSprite.cardOverlap));
           players[i].position = Vector2 (players[i].size.y + tablePile.size.x, players[i].size.y + tablePile.size.y);
           players[i].angle = -pi / 2.0;
           if (screenRatio > 1.0) {
@@ -137,7 +137,7 @@ class MainPage extends Component with HasGameReference<TarokGame> {
           }
           break;
         case PlayerPosition.north:
-          players[i].size = Vector2(tablePile.size.x, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].size = Vector2(tablePile.size.x, CardSprite.cardHeight * (1.0 - CardSprite.cardOverlap));
           players[i].position = Vector2(players[i].size.y + tablePile.size.x, players[i].size.y);
           players[i].angle = pi;
           if (screenRatio < 1.0) {
@@ -145,7 +145,7 @@ class MainPage extends Component with HasGameReference<TarokGame> {
           }
           break;
         case PlayerPosition.west:
-          players[i].size = Vector2(tablePile.size.y, Card.cardHeight * (1.0 - Card.cardOverlap));
+          players[i].size = Vector2(tablePile.size.y, CardSprite.cardHeight * (1.0 - CardSprite.cardOverlap));
           players[i].position = Vector2(players[i].size.y, players[i].size.y);
           players[i].angle = pi / 2.0;
           if (screenRatio > 1.0) {
