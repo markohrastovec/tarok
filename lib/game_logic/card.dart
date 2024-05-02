@@ -68,7 +68,7 @@ class Card
     return false;
   }
 
-  // this can be done, because same cards should bot be compared and two different card cannot be equal
+  // this can be done, because same cards should bot be compared and two different cards cannot be equal
   bool operator > (Card b) { return !(this < b); }
 
   Card (this.points, this.order, this.value, this.suit, this.resourceId);

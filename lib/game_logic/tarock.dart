@@ -1,11 +1,10 @@
-
 import 'abstract_player.dart';
 import 'base_rules.dart';
 import 'basic_player.dart';
 import 'deck.dart';
 import 'slovenian_rules.dart';
 
-mixin Tarock {
+class Tarock {
   late Deck onTable;
   late List<AbstractPlayer> player;
   late Deck talon, fullDeck;
@@ -14,7 +13,7 @@ mixin Tarock {
   late BaseRules gameRules;
   late Map<int, GameBid> currentBids;
 
-  /*Tarock(int whoStarts) {
+  Tarock(int whoStarts) {
     onTable = Deck();
     gameRules = SlovenianRules();
     startingPlayer = whoStarts;
@@ -26,7 +25,7 @@ mixin Tarock {
     for (int i = 0; i < gameRules.noOfPlayers.mode; i++) {
       player.add(BasicPlayer());
     }
-  }*/
+  }
 
   void deal() {
     for (int i = 0; i < gameRules.noOfPlayers.mode; i++) {
@@ -39,22 +38,23 @@ mixin Tarock {
     }
 
     int batchSize = 6;
-    if (gameRules.noOfPlayers.mode == PlayersMode.three)
+    if (gameRules.noOfPlayers.mode == PlayersMode.three) {
       batchSize = 8;
-    else if (gameRules.noOfPlayers == PlayersMode.four) batchSize = 6;
+    }
+    else if (gameRules.noOfPlayers == PlayersMode.four) {
+      batchSize = 6;
+    }
     // else TODO: add for two players if that mode will be added
     for (int i = 0; i < 2 * gameRules.noOfPlayers.mode; i++) {
       for (int j = 0; j < batchSize; j++) {
-        player[(i + startingPlayer) % gameRules.noOfPlayers.mode].hand.add(
-            card: fullDeck[6 + i * batchSize + j]);
+        player[(i + startingPlayer) % gameRules.noOfPlayers.mode].hand.add(card: fullDeck[6 + i * batchSize + j]);
       }
     }
   }
 
   void bid() {
     for (int i = 0; i < gameRules.noOfPlayers.mode; i++) {
-      GameBid bid = player[(i + startingPlayer) % gameRules.noOfPlayers.mode]
-          .myBid;
+      GameBid bid = player[(i + startingPlayer) % gameRules.noOfPlayers.mode].myBid;
       currentBids[(i + startingPlayer) % gameRules.noOfPlayers.mode] = bid;
     }
   }
