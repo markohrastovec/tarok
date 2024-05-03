@@ -4,10 +4,10 @@ import 'deck.dart';
 abstract class AbstractPlayer
 {
   late Deck hand, won;
-  GameBid myBid;
+  GameBid bid;
 
   AbstractPlayer ()
-  : myBid = GameBid(GameBidValue.none, TalonPortion.none);
+  : bid = GameBid(GameBidValue.none, TalonPortion.none);
 
   void emptyHand() {
     hand.clear ();

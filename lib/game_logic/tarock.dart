@@ -54,7 +54,7 @@ class Tarock {
 
   void bid() {
     for (int i = 0; i < gameRules.noOfPlayers.mode; i++) {
-      GameBid bid = player[(i + startingPlayer) % gameRules.noOfPlayers.mode].myBid;
+      GameBid bid = player[(i + startingPlayer) % gameRules.noOfPlayers.mode].bid;
       currentBids[(i + startingPlayer) % gameRules.noOfPlayers.mode] = bid;
     }
   }
