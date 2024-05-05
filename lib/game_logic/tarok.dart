@@ -1,8 +1,7 @@
 import 'abstract_player.dart';
-import 'base_rules.dart';
+import 'tarok_rules.dart';
 import 'basic_player.dart';
 import 'deck.dart';
-import 'slovenian_rules.dart';
 
 class Tarok {
   late Deck onTable;
@@ -10,12 +9,12 @@ class Tarok {
   late Deck talon, fullDeck;
   late int startingPlayer;
   late PlayersMode playersMode;
-  late BaseRules gameRules;
+  late TarokRules gameRules;
   late Map<int, GameBid> currentBids;
 
   Tarok(int whoStarts) {
     onTable = Deck();
-    gameRules = SlovenianRules();
+    gameRules = TarokRules();
     startingPlayer = whoStarts;
 
     fullDeck = Deck();

@@ -1,4 +1,4 @@
-import 'base_rules.dart';
+import 'tarok_rules.dart';
 import 'deck.dart';
 
 abstract class AbstractPlayer

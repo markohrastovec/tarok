@@ -62,7 +62,7 @@ enum PlayingMode
   colorValat
 }
 
-abstract class BaseRules
+class TarokRules
 {
   static GameBid bidNone = GameBid (GameBidValue.none, TalonPortion.none);
   static GameBid bidThree = GameBid (GameBidValue.three, TalonPortion.three);
@@ -81,7 +81,7 @@ abstract class BaseRules
   late PlayingMode playingMode;
   late Map<PlayersMode, List<GameBid>> possibleBids;
 
-  BaseRules ()
+  TarokRules ()
   {
     //possibleBids = Map<PlayersMode, List<GameBid>> ();
     possibleBids[PlayersMode.three] = [bidNone, bidThree, bidTwo, bidOne, bidBeggar, bidSoloWithout, bidOpenBeggar, bidColorValat, bidRegularValat];
